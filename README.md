@@ -80,12 +80,12 @@ NIB can use container as well as as bare metal and virtual machine or a combinat
 <br>**Text Editor** Notepad++ as free editor with utilities to work with code
 <br>**Database Manager** Heidi or equivalent
 #### Optional
-<br>**Docker** latest version
+**Docker** latest version
 <br>**Compare Utility** Beyond Compare
 <br>**Spreadsheet** Excel or equivalent
 <br>**MySql Server >= Version 5**  (required for the assessment)
 #### Grants / Permissions
-<br> Access to customer sources and data
+Access to customer sources and data
 <br> Access from/to GitLab or equivalent
 <br> Access to maven to ensure all dependencies required by NIB tooling can be downloaded
 
