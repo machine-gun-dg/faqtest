@@ -14,21 +14,20 @@
 
 ## 1-OVERVIEW
 
-### What is NIB?
+### + What is NIB?
 NIB is a comprehensive tool designed to automate the migration and modernization of legacy applications. It comprises three major components:
 <br> • **Automatic Converter:** is a key feature utilized primarily by NIB team. It enables users to automatically migrate source components to a desired target language, such as COBOL, ASM, Easytrieve, PLI, SAS to Java or .NET. Additionally, it supports code migration from databases like Db2, IMS DB, and VSAM to various RDBMS solutions. The JCL (Job Control Language) is automatically migrated to Groovy or PowerShell, depending on the target environment.
 <br> • **Integrated Development Environment (IDE):** The IDE is a plugin compatible with widely-used IDEs, allowing developers to maintain applications converted to the target language. Supported IDEs include IntelliJ IDEA and Visual Studio Code (VSC), ensuring a familiar and modern development environment for users.
 <br> • **Runtime Environment / Framework:** a collection of libraries that support the execution of converted components in the new environment. 
 <br>Together, these components empower organizations to transition from outdated programming languages and environments to modern technologies seamlessly.
 
-### NIB High Level Architecture
+### + NIB High Level Architecture
 NIB is designed with a **cloud-native architecture**, capable of being containerized. This allows it to run across various environments, including major cloud providers, virtual machines, and on-premises setups, including hybrid scenarios.
 
-### Frontend Support
+### + Frontend Support
 NIB **supports 3270 streams**, allowing customers to utilize their preferred 3270 clients while preserving their existing scripts and macros.
 <br>Additionally, NIB can automatically convert BMS/MFS into online maps, rendering them as web pages with frontend libraries such as **Angular**. The appearance can be easily customized to replicate the 3270 interface or modernized to improve the user experience.
 <br>**Both 3270 streams and Angular versions can coexist simultaneously.**
-
 
 ### What is the NIB framework?
 We use a dedicated Java/.NET framework. The framework is a set of pre-built Java/.NET components leveraging modern development practices and tools that support the lifecycle of COBOL/PLI/ASM applications recompiled/refactored to Java/.NET. The framework consists of three main components: 
