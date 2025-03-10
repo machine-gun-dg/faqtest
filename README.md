@@ -2,7 +2,7 @@
 
 ## FAQ Index
 <br>[1-OVERVIEW](#1-OVERVIEW)
-<br>[REQUIREMENTS](#REQUIREMENTS)
+<br>[2-NIB_REQUIREMENTS](#2-NIB_REQUIREMENTS)
 <br>[FILES](#FILES)
 <br>[CONTAINERS](#CONTAINERS)
 <br>[SECURITY](#SECURITY)
@@ -91,7 +91,7 @@ If the customer requires to share files across the batch nodes, all the nodes mu
 ### In Kubernetes, there is a concept of a Job, which is designed for 'fire-and-forget' tasks, meaning it runs a specific workload to completion and then terminates. On the other hand, Kubernetes Services are typically used to expose and manage long-running workloads, such as applications or APIs, that need to be continuously available and accessible. If we decide to deploy our application or workload in Kubernetes, shall we use Kubernetes Jobs or Kubernetes Services? 
 Services
 
-## REQUIREMENTS
+## 2-NIB_REQUIREMENTS
 
 ### Target - VM Hardware / OS
 <br>CPU >= Min i7 or similar
