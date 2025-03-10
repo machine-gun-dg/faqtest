@@ -3,7 +3,7 @@
 ## FAQ Index
 <br>[1-OVERVIEW](#1-OVERVIEW)
 <br>[2-NIB_REQUIREMENTS](#2-NIB_REQUIREMENTS)
-<br>[FILES](#FILES)
+<br>[3-DATA_FILES](#3-DATA_FILES)
 <br>[CONTAINERS](#CONTAINERS)
 <br>[SECURITY](#SECURITY)
 <br>[LOGGING-MONITORING](#LOGGING-MONITORING)
@@ -63,13 +63,13 @@ NIB can use container as well as as bare metal and virtual machine or a combinat
 
 ## 2-NIB_REQUIREMENTS
 
-### Target - VM Hardware / OS
+### + Target - VM Hardware / OS
  • **CPU** >= Min i7 or similar
 <br> • **Memory** >= 8GB 
 <br> • **Disk Space** >= 2GB (SSD)
 <br> • **O.S.** >= Windows 10
 
-### Software
+### * Software
 #### Mandatory
  • **JDK** 17.0 or later 
 <br> • **IDE**
@@ -90,23 +90,23 @@ NIB can use container as well as as bare metal and virtual machine or a combinat
  <br>• Access to maven to ensure all dependencies required by NIB tooling can be downloaded
 
 
-## FILES
+## 3-DATA_FILES
 
-### How the conversion of ESDS, KSDS and RRDS VSAM files works?
-We do support ESDS, KSDS as well as RRDS. We do have automatic handling of SEQ NO within our framework. That applies to ESDS as well RRDS but it is not required for KSDS. In our demo we can show how we convert a VSAM (KSDS as this is the version used in AWS Card Demo App) using a key field and a var binary (default). Of course, we can also choose a “smart conversion” with proper columns but that process does require more time as customer must be involved (e.g. date/time transformation rules must be agreed upon) as well as data cleansing that is most likely going to be required. To complete the answer the actual original COBOL call will not change as there will be VSAM functions (like READ, WRITE... just in java) that will be interpreted by our framework (hence behind the scenes) with appropriate SQL statements (e.g. READ = SELECT, WRITE = INSERT....)
-
-### How the VSAM migration work? 
+### + How the VSAM migration work? 
 We have 2 approaches:
-<br>1) Default approach – we are extremely quick data is migrated with no issues to the target DDL (described above)
-<br>2)  Smart Approach – this approach does have both prep time (to properly define the remapping rules) and migration time (to cleanse some data issue that do occur in all the project we have done in the past, so they are not an exception). 
+<br>1) **Default approach** – we are extremely quick data is migrated with no issues to the target DDL (described above)
+<br>2) **Smart Approach** – this approach does have both prep time (to properly define the remapping rules) and migration time (to cleanse some data issue that do occur in all the project we have done in the past, so they are not an exception). 
 
-### What are the performance in migrating VSAM to RDBMS?
-As reference on our tiny demo server we completed a KSDS VSAM of 1M records to PGSQL in 39 seconds using the default approach…. It could be faster depending on the number of horse powers we can count on
+### + How does the conversion of ESDS, KSDS and RRDS VSAM files works?
+NIB does support ESDS, KSDS as well as RRDS. NIB has automatic handling of SEQ NO within the NIB framework. That applies to ESDS as well RRDS but it is not required for KSDS. In the demo we can show how we convert a VSAM (KSDS as this is the version used in AWS Card Demo App) using a key field and a var binary (default). Of course, we can also choose a “smart conversion” with proper columns but that process does require more time as customer must be involved (e.g. date/time transformation rules must be agreed upon) as well as data cleansing that is most likely going to be required. To complete the answer the actual original COBOL call will not change as there will be VSAM functions (like READ, WRITE... just in java) that will be interpreted by our framework (hence behind the scenes) with appropriate SQL statements (e.g. READ = SELECT, WRITE = INSERT....)
 
-### How do you handle SORT steps in a batch job dealing with VSAM?
+### + What are the performance in migrating VSAM to RDBMS?
+As reference on our little demo server we completed a KSDS VSAM of 1M records to PGSQL in 39 seconds using the default approach…. It could be faster depending on the number of horse powers we can count on
+
+### + How do you handle SORT steps in a batch job dealing with VSAM?
 SORT is a powerful utility that offers a wide range of features, including filtering, conditions, merging, and more. However, its complexity can make it challenging to configure, especially when working with VSAM files. To simplify the process and ensure efficient data management, our solution -in similar scenarios- focuses on sequential files (VSAM are transformed to sequential). This approach eliminates the complexities associated with SQL interactions and binary or packed data formats, which would require additional operations like SUBSTR and could potentially lead to incorrect sorting. By working with sequential files, we provide a simpler and more efficient sorting process. Our decision to avoid SQL support was driven by our desire to maintain a lightweight architecture focused on the specific needs of our product.
 
-### How do you support GDGs?
+### + How do you support GDGs?
 GDGs are essentially regular files with an added concept of levels, such as FILENAME-LEVEL01, 02, 03... In the target environment, the solution will preserve the same number of levels as on the mainframe. When the maximum level is reached, the data will overwrite the initial level, maintaining the same functionality as on the mainframe. The logic of levels is handled entirely by our framework
 
 ## SECURITY
