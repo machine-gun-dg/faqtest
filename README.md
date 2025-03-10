@@ -22,7 +22,7 @@ NIB is a comprehensive tool designed to automate the migration and modernization
 <br>Together, these components empower organizations to transition from outdated programming languages and environments to modern technologies seamlessly.
 
 ### NIB High Level Architecture
-NIB is designed with a cloud-native architecture, capable of being containerized. This allows it to run across various environments, including major cloud providers, virtual machines, and on-premises setups, including hybrid scenarios.
+NIB is designed with a **cloud-native architecture**, capable of being containerized. This allows it to run across various environments, including major cloud providers, virtual machines, and on-premises setups, including hybrid scenarios.
  
 ### Frontend Support
 NIB supports 3270 streams, enabling customers to use their preferred 3270 client while retaining existing scripts and macros. Additionally, NIB can automatically expose BMS as online maps, rendering them as web pages using frontend libraries like Angular. The look and feel can be easily customized to mirror the 3270 interface or modernized to enhance user experience.
