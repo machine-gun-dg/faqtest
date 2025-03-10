@@ -24,16 +24,11 @@ NIB is a comprehensive tool designed to automate the migration and modernization
 ### + NIB High Level Architecture
 NIB is designed with a **cloud-native architecture**, capable of being containerized. This allows it to run across various environments, including major cloud providers, virtual machines, and on-premises setups, including hybrid scenarios.
 
-### + Frontend Support
-NIB **supports 3270 streams**, allowing customers to utilize their preferred 3270 clients while preserving their existing scripts and macros.
-<br>Additionally, NIB can automatically convert BMS/MFS into online maps, rendering them as web pages with frontend libraries such as **Angular**. The appearance can be easily customized to replicate the 3270 interface or modernized to improve the user experience.
-<br>**Both 3270 streams and Angular versions can coexist simultaneously.**
-
 ### + What is the NIB framework?
 We use a dedicated Java/.NET framework. The framework is a set of pre-built Java/.NET components leveraging modern development practices and tools that support the lifecycle of COBOL/PLI/ASM applications recompiled/refactored to Java/.NET. The framework consists of three main components: 
-<br> • **Commons:** a collection of common packages and utilities for the converted programs (program management, storage management, file i/o, E/SQL...)
-<br> • **Supernaut:** to replace mainframe TP monitors (CICS/IMS TM) 
-<br> • **Motorhead:** to replace the IBM mainframe batch engine. 
+<br> 1 **Commons:** a collection of common packages and utilities for the converted programs (program management, storage management, file i/o, E/SQL...)
+<br> 2 **Supernaut:** to replace mainframe TP monitors (CICS/IMS TM) 
+<br> 3 **Motorhead:** to replace the IBM mainframe batch engine. 
 <br> Framework Advantages: 
 <br> • Reduction the amount of generated code, 
 <br> • Best Practices and Standards, 
@@ -41,59 +36,31 @@ We use a dedicated Java/.NET framework. The framework is a set of pre-built Java
 <br> • Integration and Interoperability, 
 <br> • Scalability and Performance. 
 
+### + How are BMS/MFS supported?
+NIB **supports 3270 streams**, allowing customers to utilize their preferred 3270 clients while preserving their existing scripts and macros.
+<br>Additionally, NIB can automatically convert BMS/MFS into online maps, rendering them as web pages with frontend libraries such as **Angular**. The appearance can be easily customized to replicate the 3270 interface or modernized to improve the user experience.
+<br>**Both 3270 streams and Angular versions can coexist simultaneously.**
+
+### + How are JCL migrates?
+NIB automatically migrate **JCLS into Groovy** (for Java target) and **PowerShell** (for .NET target)
+
 ### + What is the Java version used?
 NIB typically uses the latest version available at the time of the project. 
 **The minimum JDK required is 17.**
 
 ### + What are the Java framework used?
-There are a variety of frameworks that we can use but primarily we use Spring. An accurate list of framework depends on the specific configuration that will be adopted for the specific project. 
+There are a variety of frameworks that we can use but primarily we use **Spring Boot**. 
+<br>The major external libraries used are:
+<br> • **Spring Framework** a comprehensive and popular platform for building Java applications, providing support for widely used architectural patterns and components.
+<br> • **Apache Commons** a collection of reusable Java components that address common programming patterns.
+<br> • **Google Guava** set of core Java libraries from Google, providing utilities for collections, caching, concurrency, and more.
+<br> • **Netty** High-performance asynchronous event-driven network application framework.
+<br> • **Atomikos** Provides transaction management and connection pooling for Java applications, primarily focused on distributed transactions to ensure data consistency across multiple databases or systems, even in case of failures.
+<br> **NOTE:** an accurate list of framework depends on the specific configuration that will be adopted for the specific project. 
 
 ### + What is the deployment architecture? Is it Container based? 
 NIB can use container as well as as bare metal and virtual machine or a combinations of all
 
-### + Does target architecture follow Microservice Architecture?
-The NIB architecture is **cloud-native** and imposes no limitations on developing microservices. 
-Migration is preferably conducted as a 1:1 iso-functional transformation. Transitioning to microservices is typically addressed as part of the second phase of the modernization journey.
-
-### + Are there any Vendor specific libraries/SDK that will need to be part of code? What will be the maintenance or upgrade path for it? 
-The NIB proposal is highly flexible and can be provided in various formats, including a no vendor lock-in option that includes full access to the NIB framework source code. 
-Subscription models are also available, along with permanent licenses that include maintenance and support.
-
-### What are the integration endpoints supported, i.e. APIs / Messaging? 
-NIB can implement interfaces of any kinds. NIB comes with a number of already defined interfaces for MQ for examples and others. 
-Ad hoc - specific integrations can be devolepd as needed 
-
-### What is the Data Format (JSON / XML…) for APIs?
-JSON	
-
-### What are the alternatives of powershell scripts against for the JCL conversion for .NET target? 
-Groovy can be provided even for .NET
-
-### While migrating BMS to Angular can you change the layout automatically?
-Yes, NIB can automate certain layout changes within specific limits. For instance, applying logos, font styles, colors, and footers can be easily automated. 
-However, consolidating multiple maps and altering map layouts are more complex tasks that require dedicated analysis and migration services. 
-
-### Does NIB offer support for Web Services?
-Generally, yes; however, for programs to be exposed as Web Services, the original COBOL logic must be specifically coded to support this functionality. 
-If not, transforming existing CICS programs that utilize BMS maps into Web Service logic may require dedicated reengineering steps. 
-
-### How do you handle state management in the containerized environment?
-State management for DB2/IMS DB is handled by the target database. For the files the state management is guaranteed by the target  shared file system (i.e. AWS EFS, FSx o EBS)
-
-### How do you manage database connections and transactions in a Docker / Kubernetes environment?
-Exactly like any other Java/.NET application: 
-####Java:
-<br>- JDBC: We will utilize JDBC to connect to the database and execute SQL queries.
-<br>- JTA: For distributed transactions, we will use JTA to coordinate transactions across multiple data sources, ensuring data consistency.
-####.NET:
-<br>- ADO.NET: to connect to the target DB and execute SQL queries 
-<br>- TransactionScope: for distributed transactions we use TransactionScope class part of .NET or, if available, the  TransactionScope class provided by the target DB
-
-### In case of Kubernetes do we need a shared volume in Kubernetes?
-If the customer requires to share files across the batch nodes, all the nodes must be connected to the same storage. If it's a shared k8s volume or any other solution (i.e. plain old NFS) it is fine. Of course, performance must be considered when designing the architecture. 
-
-### In Kubernetes, there is a concept of a Job, which is designed for 'fire-and-forget' tasks, meaning it runs a specific workload to completion and then terminates. On the other hand, Kubernetes Services are typically used to expose and manage long-running workloads, such as applications or APIs, that need to be continuously available and accessible. If we decide to deploy our application or workload in Kubernetes, shall we use Kubernetes Jobs or Kubernetes Services? 
-Services
 
 ## 2-NIB_REQUIREMENTS
 
@@ -260,4 +227,49 @@ mLogica preference is "JES like" option ii)
 
 ### Do you support multithreading?
 if by multithreading we mean if we can start parallel processes then the answer is yes
+
+### + Does target architecture follow Microservice Architecture?
+The NIB architecture is **cloud-native** and imposes no limitations on developing microservices. 
+Migration is preferably conducted as a 1:1 iso-functional transformation. Transitioning to microservices is typically addressed as part of the second phase of the modernization journey.
+
+### + Are there any Vendor specific libraries/SDK that will need to be part of code? What will be the maintenance or upgrade path for it? 
+The NIB proposal is highly flexible and can be provided in various formats, including a no vendor lock-in option that includes full access to the NIB framework source code. 
+Subscription models are also available, along with permanent licenses that include maintenance and support.
+
+### + What are the integration endpoints supported, i.e. APIs / messaging? 
+NIB can implement interfaces of any kinds. NIB comes with a number of already defined interfaces for MQ for examples and others. 
+Ad hoc - specific integrations can be devolepd as needed 
+
+### + What is the Data Format (JSON / XML…) for APIs?
+JSON	
+
+### + What are the alternatives of powershell scripts against for the JCL conversion for .NET target? 
+Groovy can be provided even for .NET
+
+### + While migrating BMS to Angular can you change the layout automatically?
+Yes, NIB can automate certain layout changes within specific limits. For instance, applying logos, font styles, colors, and footers can be easily automated. 
+However, consolidating multiple maps and altering map layouts are more complex tasks that require dedicated analysis and migration services. 
+
+### + Does NIB offer support for Web Services?
+Generally, yes; however, for programs to be exposed as Web Services, the original COBOL logic must be specifically coded to support this functionality. 
+If not, transforming existing CICS programs that utilize BMS maps into Web Service logic may require dedicated reengineering steps. 
+
+### How do you handle state management in the containerized environment?
+State management for DB2/IMS DB is handled by the target database. For the files the state management is guaranteed by the target  shared file system (i.e. AWS EFS, FSx o EBS)
+
+### How do you manage database connections and transactions in a Docker / Kubernetes environment?
+Exactly like any other Java/.NET application: 
+####Java:
+<br>- JDBC: We will utilize JDBC to connect to the database and execute SQL queries.
+<br>- JTA: For distributed transactions, we will use JTA to coordinate transactions across multiple data sources, ensuring data consistency.
+####.NET:
+<br>- ADO.NET: to connect to the target DB and execute SQL queries 
+<br>- TransactionScope: for distributed transactions we use TransactionScope class part of .NET or, if available, the  TransactionScope class provided by the target DB
+
+### In case of Kubernetes do we need a shared volume in Kubernetes?
+If the customer requires to share files across the batch nodes, all the nodes must be connected to the same storage. If it's a shared k8s volume or any other solution (i.e. plain old NFS) it is fine. Of course, performance must be considered when designing the architecture. 
+
+### In Kubernetes, there is a concept of a Job, which is designed for 'fire-and-forget' tasks, meaning it runs a specific workload to completion and then terminates. On the other hand, Kubernetes Services are typically used to expose and manage long-running workloads, such as applications or APIs, that need to be continuously available and accessible. If we decide to deploy our application or workload in Kubernetes, shall we use Kubernetes Jobs or Kubernetes Services? 
+Services
+
 
