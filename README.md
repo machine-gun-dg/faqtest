@@ -1,8 +1,11 @@
 # Frequently Asked Questions (FAQ)
 
 ## FAQ Index
-[Overview](#Overview)
+[OVERVIEW](#OVERVIEW)
+[GENERATED-CODE](#GENERATED-CODE)
+[THIRD-PARTY-COMPONENETS](#THIRD-PARTY-COMPONENETS)
 
+## OVERVIEW
 
 ### What is the NIB framework?
 We use a dedicated Java/.NET framework. The framework is a set of pre-built Java/.NET components leveraging modern development practices and tools that support the lifecycle of COBOL/PLI/ASM applications recompiled/refactored to Java/.NET. The framework consists of three main components: 
@@ -80,7 +83,6 @@ NIB fully supports  TCP/IP based protocols: HTTP, FTP, Web Services and MQ.
 ### Could you please specify more about your MQ support?
 NIB supports MQ through JMS (Java Message Service) and IBM MQ Client for Java (or similar like RabbitMQ). Therefore whatever is supported by the latter is supported by NIB.
 
-## Overview
 
 TP is built on Redis. Redis is: i) by design implemented to be horizontally scalable ii) utilized to store and manage all CICS session data  iii) available through all major cloud vendors as a managed service. There is no mandatory requirement to use an application server (AS). AS is used (if required) to handle services like CTG, CICS connect. Redis can be used standalone or with an AS to further enhance performances, scalability etc. based on customer requirements. The TP Framework is also providing 3270 as well as Angular services. For the batch side our solution is based on XML with Spring Batch or Groovy. Groovy is a modern scripting language similar to Java, more concise and expressive than XML and is right now the primary suggested solution given that the roadmap for Spring Batch future version 5 (expected in 2024) is shifting the focus towards Groovy instead of XML. Groovy relies on a component called Motorhead that acts as batch orchestrator to schedule certain classes or specific jobs on specific batch engines, VM, containers…
 
