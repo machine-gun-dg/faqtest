@@ -86,8 +86,8 @@ NIB can use container as well as as bare metal and virtual machine or a combinat
 <br> • **MySql Server >= Version 5**  (required for the assessment)
 #### Grants / Permissions
  • Access to customer sources and data
- • <br> Access from/to GitLab or equivalent
- • <br> Access to maven to ensure all dependencies required by NIB tooling can be downloaded
+ <br>• Access from/to GitLab or equivalent
+ <br>• Access to maven to ensure all dependencies required by NIB tooling can be downloaded
 
 
 ## FILES
