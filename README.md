@@ -61,31 +61,30 @@ There are a variety of frameworks that we can use but primarily we use **Spring 
 ### + What is the deployment architecture? Is it Container based? 
 NIB can use container as well as as bare metal and virtual machine or a combinations of all
 
-
 ## 2-NIB_REQUIREMENTS
 
 ### Target - VM Hardware / OS
-CPU >= Min i7 or similar
-<br>Memory >= 8GB 
-<br>Disk Space >= 2GB (SSD)
-<br>O.S. >= Windows 10
+**CPU** >= Min i7 or similar
+<br>**Memory** >= 8GB 
+<br>**Disk Space** >= 2GB (SSD)
+<br>**O.S.** >= Windows 10
 
 ### Software
 #### Mandatory
-JDK 17.0 or later 
-<br>IntelliJ IDE Latest Version OR
-<br>Eclipse IDE Latest Version 
-<br>Target RDBMS (e.g. SQL Server) Latest version
-<br>GitLab or equivalent to keep the baseline and versioning of the migrated components
-<br>Notepad ++ as free editor with utilities to work with code
-<br>Heidi or equivalent – free database manager
+**JDK** 17.0 or later 
+<br>**IDE**
+<br> - IntelliJ IDE Latest Version OR
+<br> - Eclipse IDE Latest Version 
+<br>**Target RDBMS** (e.g. SQL Server) Latest version
+<br>**Sourve Code Versioning** GitLab or equivalent to keep the baseline and versioning of the migrated components
+<br>**Text Editor** Notepad++ as free editor with utilities to work with code
+<br>**Database Manager** Heidi or equivalent
 #### Optional
-<br>Docker - latest version
-<br>Beyond Compare
-<br>Excel or equivalent
-<br>MySql Server >= Version 5  (required for the assessment)
-
-### Grants / Permissions
+<br>**Docker** latest version
+<br>**Compare Utility** Beyond Compare
+<br>**Spreadsheet** Excel or equivalent
+<br>**MySql Server >= Version 5**  (required for the assessment)
+#### Grants / Permissions
 <br> Access to customer sources and data
 <br> Access from/to GitLab or equivalent
 <br> Access to maven to ensure all dependencies required by NIB tooling can be downloaded
