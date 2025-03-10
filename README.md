@@ -64,30 +64,30 @@ NIB can use container as well as as bare metal and virtual machine or a combinat
 ## 2-NIB_REQUIREMENTS
 
 ### Target - VM Hardware / OS
-**CPU** >= Min i7 or similar
-<br>**Memory** >= 8GB 
-<br>**Disk Space** >= 2GB (SSD)
-<br>**O.S.** >= Windows 10
+ • **CPU** >= Min i7 or similar
+<br> • **Memory** >= 8GB 
+<br> • **Disk Space** >= 2GB (SSD)
+<br> • **O.S.** >= Windows 10
 
 ### Software
 #### Mandatory
-**JDK** 17.0 or later 
-<br>**IDE**
+ • **JDK** 17.0 or later 
+<br> • **IDE**
 <br> - IntelliJ IDE Latest Version OR
 <br> - Eclipse IDE Latest Version 
-<br>**Target RDBMS** (e.g. SQL Server) Latest version
-<br>**Sourve Code Versioning** GitLab or equivalent to keep the baseline and versioning of the migrated components
-<br>**Text Editor** Notepad++ as free editor with utilities to work with code
-<br>**Database Manager** Heidi or equivalent
+<br> • **Target RDBMS** (e.g. SQL Server) Latest version
+<br> • **Sourve Code Versioning** GitLab or equivalent to keep the baseline and versioning of the migrated components
+<br> • **Text Editor** Notepad++ as free editor with utilities to work with code
+<br> • **Database Manager** Heidi or equivalent
 #### Optional
-**Docker** latest version
-<br>**Compare Utility** Beyond Compare
-<br>**Spreadsheet** Excel or equivalent
-<br>**MySql Server >= Version 5**  (required for the assessment)
+ • **Docker** latest version
+<br> • **Compare Utility** Beyond Compare
+<br> • **Spreadsheet** Excel or equivalent
+<br> • **MySql Server >= Version 5**  (required for the assessment)
 #### Grants / Permissions
-Access to customer sources and data
-<br> Access from/to GitLab or equivalent
-<br> Access to maven to ensure all dependencies required by NIB tooling can be downloaded
+ • Access to customer sources and data
+ • <br> Access from/to GitLab or equivalent
+ • <br> Access to maven to ensure all dependencies required by NIB tooling can be downloaded
 
 
 ## FILES
