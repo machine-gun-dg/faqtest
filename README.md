@@ -25,7 +25,9 @@ NIB is a comprehensive tool designed to automate the migration and modernization
 NIB is designed with a **cloud-native architecture**, capable of being containerized. This allows it to run across various environments, including major cloud providers, virtual machines, and on-premises setups, including hybrid scenarios.
  
 ### Frontend Support
-NIB supports 3270 streams, enabling customers to use their preferred 3270 client while retaining existing scripts and macros. Additionally, NIB can automatically expose BMS as online maps, rendering them as web pages using frontend libraries like Angular. The look and feel can be easily customized to mirror the 3270 interface or modernized to enhance user experience.
+NIB **supports 3270 streams**, allowing customers to utilize their preferred 3270 clients while preserving their existing scripts and macros.
+<br>Additionally, NIB can automatically convert BMS/MFS into online maps, rendering them as web pages with frontend libraries such as **Angular**. The appearance can be easily customized to replicate the 3270 interface or modernized to improve the user experience.
+<br>**Both 3270 streams and Angular versions can coexist simultaneously.**
 
 
 ### What is the NIB framework?
@@ -94,14 +96,14 @@ Services
 ## 2-NIB_REQUIREMENTS
 
 ### Target - VM Hardware / OS
-<br>CPU >= Min i7 or similar
+CPU >= Min i7 or similar
 <br>Memory >= 8GB 
 <br>Disk Space >= 2GB (SSD)
 <br>O.S. >= Windows 10
 
 ### Software
 #### Mandatory
-<br>JDK 17.0 or later 
+JDK 17.0 or later 
 <br>IntelliJ IDE Latest Version OR
 <br>Eclipse IDE Latest Version 
 <br>Target RDBMS (e.g. SQL Server) Latest version
