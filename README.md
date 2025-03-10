@@ -1,7 +1,7 @@
 # Frequently Asked Questions (FAQ)
 
 ## FAQ Index
-<br>[OVERVIEW](#OVERVIEW)
+<br>[1-OVERVIEW](#1-OVERVIEW)
 <br>[REQUIREMENTS](#REQUIREMENTS)
 <br>[FILES](#FILES)
 <br>[CONTAINERS](#CONTAINERS)
@@ -12,7 +12,7 @@
 <br>[SAS](#SAS)
 <br>[MISC](#MISC)
 
-## OVERVIEW
+## 1-OVERVIEW
 
 ### What is NIB
 NIB is a comprehensive tool designed to automate the migration and modernization of legacy applications. It comprises three major components:
