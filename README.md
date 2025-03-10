@@ -32,15 +32,15 @@ NIB **supports 3270 streams**, allowing customers to utilize their preferred 327
 
 ### What is the NIB framework?
 We use a dedicated Java/.NET framework. The framework is a set of pre-built Java/.NET components leveraging modern development practices and tools that support the lifecycle of COBOL/PLI/ASM applications recompiled/refactored to Java/.NET. The framework consists of three main components: 
-#### i) Commons: a collection of common packages and utilities for the converted programs (program management, storage management, file i/o, E/SQL...)
-#### ii) Supernaut: to replace mainframe TP monitors (CICS/IMS TM) 
-#### iii) Motorhead: to replace the IBM mainframe batch engine. 
+<br> • **Commons:** a collection of common packages and utilities for the converted programs (program management, storage management, file i/o, E/SQL...)
+<br> • **Supernaut:** to replace mainframe TP monitors (CICS/IMS TM) 
+<br> • **Motorhead:** to replace the IBM mainframe batch engine. 
 Framework Advantages: 
-<br> i) Reduction the amount of generated code, 
-<br> ii) Best Practices and Standards, 
-<br> iii) Security and Stability, 
-<br> iv)  Integration and Interoperability, 
-<br> v) Scalability and Performance. 
+<br> • Reduction the amount of generated code, 
+<br> • Best Practices and Standards, 
+<br> • Security and Stability, 
+<br> • Integration and Interoperability, 
+<br> • Scalability and Performance. 
 
 ### What is the Java version used?
 We typically use the latest version available at the time of the project. 
