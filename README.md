@@ -35,7 +35,7 @@ We use a dedicated Java/.NET framework. The framework is a set of pre-built Java
 <br> • **Commons:** a collection of common packages and utilities for the converted programs (program management, storage management, file i/o, E/SQL...)
 <br> • **Supernaut:** to replace mainframe TP monitors (CICS/IMS TM) 
 <br> • **Motorhead:** to replace the IBM mainframe batch engine. 
-Framework Advantages: 
+<br> Framework Advantages: 
 <br> • Reduction the amount of generated code, 
 <br> • Best Practices and Standards, 
 <br> • Security and Stability, 
@@ -43,8 +43,8 @@ Framework Advantages:
 <br> • Scalability and Performance. 
 
 ### What is the Java version used?
-We typically use the latest version available at the time of the project. 
-The minimum JDK required is 17. 
+NIB typically uses the latest version available at the time of the project. 
+**The minimum JDK required is 17.**
 
 ### What are the Java framework used?
 There are a variety of frameworks that we can use but primarily we use Spring. An accurate list of framework depends on the specific configuration that will be adopted for the specific project. 
@@ -53,11 +53,12 @@ There are a variety of frameworks that we can use but primarily we use Spring. A
 NIB can use container as well as as bare metal and virtual machine or a combinations of all
 
 ### Does target architecture follow Microservice Architecture?
-The architecture is cloud native and does not offer any limitation to develop micro services. The migration we perform is typically 1:1 and a transition to micro services is typically part of a second leg of the modeenization journey. 
+The architecture is cloud-native and imposes no limitations on developing microservices. 
+Migration is preferably conducted as a 1:1 iso-functional transformation. Transitioning to microservices is typically addressed as part of the second phase of the modernization journey.
 
 ### Are there any Vendor specific libraries/SDK that will need to be part of code? What will be the maintenance or upgrade path for it? 
-NIB proposal is very flexible and can offer a no vendor lock in proposal.
-Maintenance and Support for the NIB framework that can be provided in various formats
+The NIB proposal is highly flexible and can be provided in various formats, including a no vendor lock-in option that includes full access to the NIB framework source code. 
+Subscription models are also available, along with permanent licenses that include maintenance and support.
 
 ### What are the integration endpoints supported, i.e. APIs / Messaging? 
 NIB can implement interfaces of any kinds. NIB comes with a number of already defined interfaces for MQ for examples and others. 
@@ -70,10 +71,12 @@ JSON
 Groovy can be provided even for .NET
 
 ### While migrating BMS to Angular can you change the layout automatically?
-Yes, we can automate some layout changes within limits (apply logos, fontstyle, colors, footers can be easily automated, consolidate multiple maps, change maps layout are more difficult and require a dedicate analysis)
+Yes, NIB can automate certain layout changes within specific limits. For instance, applying logos, font styles, colors, and footers can be easily automated. 
+However, consolidating multiple maps and altering map layouts are more complex tasks that require dedicated analysis and migration services. 
 
 ### Does NIB offer support for Web Services?
-Generally yes,  however programs to be exposed as Web Services require that the Cobol programs are coded for that, transforming existing CICS programs using BMS maps to WS logic requires a reengineering step.
+Generally, yes; however, for programs to be exposed as Web Services, the original COBOL logic must be specifically coded to support this functionality. 
+If not, transforming existing CICS programs that utilize BMS maps into Web Service logic may require dedicated reengineering steps. 
 
 ### How do you handle state management in the containerized environment?
 State management for DB2/IMS DB is handled by the target database. For the files the state management is guaranteed by the target  shared file system (i.e. AWS EFS, FSx o EBS)
