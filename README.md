@@ -29,7 +29,7 @@ NIB **supports 3270 streams**, allowing customers to utilize their preferred 327
 <br>Additionally, NIB can automatically convert BMS/MFS into online maps, rendering them as web pages with frontend libraries such as **Angular**. The appearance can be easily customized to replicate the 3270 interface or modernized to improve the user experience.
 <br>**Both 3270 streams and Angular versions can coexist simultaneously.**
 
-### What is the NIB framework?
+### + What is the NIB framework?
 We use a dedicated Java/.NET framework. The framework is a set of pre-built Java/.NET components leveraging modern development practices and tools that support the lifecycle of COBOL/PLI/ASM applications recompiled/refactored to Java/.NET. The framework consists of three main components: 
 <br> • **Commons:** a collection of common packages and utilities for the converted programs (program management, storage management, file i/o, E/SQL...)
 <br> • **Supernaut:** to replace mainframe TP monitors (CICS/IMS TM) 
@@ -41,21 +41,21 @@ We use a dedicated Java/.NET framework. The framework is a set of pre-built Java
 <br> • Integration and Interoperability, 
 <br> • Scalability and Performance. 
 
-### What is the Java version used?
+### + What is the Java version used?
 NIB typically uses the latest version available at the time of the project. 
 **The minimum JDK required is 17.**
 
-### What are the Java framework used?
+### + What are the Java framework used?
 There are a variety of frameworks that we can use but primarily we use Spring. An accurate list of framework depends on the specific configuration that will be adopted for the specific project. 
 
-### What is the deployment architecture? Is it Container based? 
+### + What is the deployment architecture? Is it Container based? 
 NIB can use container as well as as bare metal and virtual machine or a combinations of all
 
-### Does target architecture follow Microservice Architecture?
-The architecture is cloud-native and imposes no limitations on developing microservices. 
+### + Does target architecture follow Microservice Architecture?
+The NIB architecture is **cloud-native** and imposes no limitations on developing microservices. 
 Migration is preferably conducted as a 1:1 iso-functional transformation. Transitioning to microservices is typically addressed as part of the second phase of the modernization journey.
 
-### Are there any Vendor specific libraries/SDK that will need to be part of code? What will be the maintenance or upgrade path for it? 
+### + Are there any Vendor specific libraries/SDK that will need to be part of code? What will be the maintenance or upgrade path for it? 
 The NIB proposal is highly flexible and can be provided in various formats, including a no vendor lock-in option that includes full access to the NIB framework source code. 
 Subscription models are also available, along with permanent licenses that include maintenance and support.
 
