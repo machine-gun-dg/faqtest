@@ -14,7 +14,7 @@
 
 ## 1-OVERVIEW
 
-### What is NIB
+### What is NIB?
 NIB is a comprehensive tool designed to automate the migration and modernization of legacy applications. It comprises three major components:
 <br> • **Automatic Converter:** is a key feature utilized primarily by NIB team. It enables users to automatically migrate source components to a desired target language, such as COBOL, ASM, Easytrieve, PLI, SAS to Java or .NET. Additionally, it supports code migration from databases like Db2, IMS DB, and VSAM to various RDBMS solutions. The JCL (Job Control Language) is automatically migrated to Groovy or PowerShell, depending on the target environment.
 <br> • **Integrated Development Environment (IDE):** The IDE is a plugin compatible with widely-used IDEs, allowing developers to maintain applications converted to the target language. Supported IDEs include IntelliJ IDEA and Visual Studio Code (VSC), ensuring a familiar and modern development environment for users.
