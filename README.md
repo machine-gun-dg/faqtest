@@ -4,10 +4,9 @@
 <br>[1-OVERVIEW](#1-OVERVIEW)
 <br>[2-NIB_REQUIREMENTS](#2-NIB_REQUIREMENTS)
 <br>[3-DATA_FILES](#3-DATA_FILES)
-<br>[CONTAINERS](#CONTAINERS)
-<br>[SECURITY](#SECURITY)
-<br>[LOGGING-MONITORING](#LOGGING-MONITORING)
-<br>[2PC](#2PC)
+<br>[4-CONTAINERS](#4-CONTAINERS)
+<br>[5-SECURITY](#5-SECURITY)
+<br>[6-2PC](#6-2PC)
 <br>[z/OS-INTERCOMMUNICATION](#z/OS-INTERCOMMUNICATION)
 <br>[SAS](#SAS)
 <br>[MISC](#MISC)
@@ -103,52 +102,63 @@ NIB does support ESDS, KSDS as well as RRDS. NIB has automatic handling of SEQ N
 ### + What are the performance in migrating VSAM to RDBMS?
 As reference on our little demo server we completed a KSDS VSAM of 1M records to PGSQL in 39 seconds using the default approach…. It could be faster depending on the number of horse powers we can count on
 
-### + How do you handle SORT steps in a batch job dealing with VSAM?
+### + How does NIIB handle SORT steps in a batch job dealing with VSAM?
 SORT is a powerful utility that offers a wide range of features, including filtering, conditions, merging, and more. However, its complexity can make it challenging to configure, especially when working with VSAM files. To simplify the process and ensure efficient data management, our solution -in similar scenarios- focuses on sequential files (VSAM are transformed to sequential). This approach eliminates the complexities associated with SQL interactions and binary or packed data formats, which would require additional operations like SUBSTR and could potentially lead to incorrect sorting. By working with sequential files, we provide a simpler and more efficient sorting process. Our decision to avoid SQL support was driven by our desire to maintain a lightweight architecture focused on the specific needs of our product.
 
-### + How do you support GDGs?
+### + How does NIB support GDGs?
 GDGs are essentially regular files with an added concept of levels, such as FILENAME-LEVEL01, 02, 03... In the target environment, the solution will preserve the same number of levels as on the mainframe. When the maximum level is reached, the data will overwrite the initial level, maintaining the same functionality as on the mainframe. The logic of levels is handled entirely by our framework
 
-## SECURITY
+## 4-CONTAINERS
 
-### What are the security standards applied? 
-The whole legacy application security logic (RACF, CICS, IMS etc.) is migrated to equivalent security features available in the target architecture and handled using Java interfaces, we don’t have a preferred framework for implementing the actual security control, we are flexible in that sense and can easily accommodate any customer preference as far as the selected replacement provides with all the necessary features. About the system security (file access, source code access, deployment processes etc.) that part is related to the infrastructure architecture and the access standards together with rules and roles will be defined in the SOW.
+### How does NIB manage database connections and transactions in a Docker / Kubernetes environment?
+Exactly like any other Java/.NET application: 
+####Java:
+<br>- JDBC: We will utilize JDBC to connect to the database and execute SQL queries.
+<br>- JTA: For distributed transactions, we will use JTA to coordinate transactions across multiple data sources, ensuring data consistency.
+####.NET:
+<br>- ADO.NET: to connect to the target DB and execute SQL queries 
+<br>- TransactionScope: for distributed transactions we use TransactionScope class part of .NET or, if available, the  TransactionScope class provided by the target DB
+
+### + How does NIB handle state management in the containerized environment?
+State management for DB2/IMS DB is handled by the target database. For the files the state management is guaranteed by the target  shared file system (i.e. AWS EFS, FSx o EBS)
+
+### + In case of Kubernetes do we need a shared volume in Kubernetes?
+If the customer requires to share files across the batch nodes, all the nodes must be connected to the same storage. If it's a shared k8s volume or any other solution (i.e. plain old NFS) it is fine. Of course, performance must be considered when designing the architecture. 
+
+### In Kubernetes, there is a concept of a Job, which is designed for 'fire-and-forget' tasks, meaning it runs a specific workload to completion and then terminates. On the other hand, Kubernetes Services are typically used to expose and manage long-running workloads, such as applications or APIs, that need to be continuously available and accessible. If we decide to deploy our application or workload in Kubernetes, shall we use Kubernetes Jobs or Kubernetes Services? 
+Services
+
+
+## 5-SECURITY
+
+### + What is the NIB authentication mechanism for APIs OOTB (out of the box)?
+NIB does not have a specific preference for the authentication mechanism; NIB can interface (with an ad hoc interface) any available authentication method requested by the client.
+
+### + What are the security standards applied? 
+The whole legacy application security logic (RACF, CICS, IMS etc.) is migrated to equivalent security features available in the target architecture and handled using Java interfaces, NIB does not have a preferred framework for implementing the actual security control, we are flexible in that sense and can easily accommodate any customer preference as far as the selected replacement provides with all the necessary features. About the system security (file access, source code access, deployment processes etc.) that part is related to the infrastructure architecture and the access standards together with rules and roles will be defined in the SOW.
 Application security is migrated as-is.
 
-### What is the authentication mechanism for APIs OOTB (out of the box)?
-We really don’t mind about the authentication mechanism, we can simply answer we can support any available authentication mechanism provided by the application server that will be used to deploy the OOTB service
-
-### Do you refactor the RACF components (service accounts/user profiles) and take care in the ASP.NET code? For example, when we read files, file access & resposition is created thru RACF. But in ASP.NET we have to add extra code on authorization call to Azure AD . Does this is done automatically during refactoring process? 
+### + Does NIB refactor the RACF components (service accounts/user profiles) and take care in the ASP.NET code? For example, when we read files, file access & resposition is created thru RACF. But in ASP.NET we have to add extra code on authorization call to Azure AD . Does this is done automatically during refactoring process? 
 We can convert RACF to AD but this is not part of our standard proposal and this requires some special considerations given security migration can only be partially automated 
 
+## 6-2PC 
 
-## LOGGING-MONITORING
-
-### What level of logging and tracing that will be available in solution code flow? 
-NIB provides applicative logging capabilities (e.g., Logback), allowing you to customize logging based on your specific requirements. 
-In addition, NIB offers Micrometer for application metrics. While we demonstrate Micrometer data with Grafana in the demo, we expect you to use your preferred industry-standard telemetry tool like Dynatrace or AppDynamics. Micrometer's collected data can be easily integrated with these tools.
-The equivalent of Java/Micrometer in .NET is .NET/OpenTelemetry
-
-
-
-## 2PC 
-
-### Does the NIB framework support two phase commit?
-Yes
-#### Java
+### + Does the NIB framework support two phase commit?
+Yes, it does. In particular:
+<br>• **Java**
 Java is leveraging Atomikos, a popular open-source transaction management framework that supports distributed transactions across multiple resources, such as databases and message queues.  Atomikos implements the 2PC protocol to manage distributed transactions. It coordinates the transaction across multiple resources, ensuring that all resources either commit or roll back changes.
-#### .NET
+<br>• **.NET**
 For the transactions in .NET, NIBs use the Microsoft package "System.Transactions" and in particular  CommittableTransaction that handles all open connections. Any data source in "enlisted" like for example a ADO connection to SQL Server, can participate to the transitions. In simple terms NIB demands all transaction handling as well as the 2PC to the MSFT runtime.
 
-### What happens when we have a transaction that is both DB and MQ, do we support the single unit of work? and is there any difference if the process is a transaction or a batch process?
-#### Same as on mainframe. On the mainframe: 
+### + What happens when we have a transaction that is both DB and MQ, do we support the single unit of work? and is there any difference if the process is a transaction or a batch process?
+Same as on mainframe. On the mainframe: 
 <br>i) Online transactions are managed by CICS. 
 <br>ii) Batch transactions must be managed programmatically either calling DB or MQ API or using the RRSAF API, like DSNRLI.
-#### NIB is behaving pretty much the same:
-#### Online 
+<br>NIB is behaving pretty much the same:
+<br>• **Online**
 <br> Java - transactions are managed by Atomikos (https://www.atomikos.com) that is integral part of our solution so whatever components provides an XA driver can join 2PC transactions. Specifically, DB and IBM MQ can do that.
 <br> .NET - transactions are managed by "System.Transactions" and in particular  CommittableTransaction that handles all open connections
-#### Batch
+<br>• **Batch**
 <br> Java / .NET
 we can invoke driver's API to manage transactions. 
 <br> For the sake of transparency, we do not provide RRSAF equivalent API, but a similar functionality can be replicated using Atomikos/CommittableTransaction.
@@ -253,22 +263,10 @@ However, consolidating multiple maps and altering map layouts are more complex t
 Generally, yes; however, for programs to be exposed as Web Services, the original COBOL logic must be specifically coded to support this functionality. 
 If not, transforming existing CICS programs that utilize BMS maps into Web Service logic may require dedicated reengineering steps. 
 
-### How do you handle state management in the containerized environment?
-State management for DB2/IMS DB is handled by the target database. For the files the state management is guaranteed by the target  shared file system (i.e. AWS EFS, FSx o EBS)
 
-### How do you manage database connections and transactions in a Docker / Kubernetes environment?
-Exactly like any other Java/.NET application: 
-####Java:
-<br>- JDBC: We will utilize JDBC to connect to the database and execute SQL queries.
-<br>- JTA: For distributed transactions, we will use JTA to coordinate transactions across multiple data sources, ensuring data consistency.
-####.NET:
-<br>- ADO.NET: to connect to the target DB and execute SQL queries 
-<br>- TransactionScope: for distributed transactions we use TransactionScope class part of .NET or, if available, the  TransactionScope class provided by the target DB
-
-### In case of Kubernetes do we need a shared volume in Kubernetes?
-If the customer requires to share files across the batch nodes, all the nodes must be connected to the same storage. If it's a shared k8s volume or any other solution (i.e. plain old NFS) it is fine. Of course, performance must be considered when designing the architecture. 
-
-### In Kubernetes, there is a concept of a Job, which is designed for 'fire-and-forget' tasks, meaning it runs a specific workload to completion and then terminates. On the other hand, Kubernetes Services are typically used to expose and manage long-running workloads, such as applications or APIs, that need to be continuously available and accessible. If we decide to deploy our application or workload in Kubernetes, shall we use Kubernetes Jobs or Kubernetes Services? 
-Services
+### What level of logging and tracing that will be available in solution code flow? 
+NIB provides applicative logging capabilities (e.g., Logback), allowing you to customize logging based on your specific requirements. 
+In addition, NIB offers Micrometer for application metrics. While we demonstrate Micrometer data with Grafana in the demo, we expect you to use your preferred industry-standard telemetry tool like Dynatrace or AppDynamics. Micrometer's collected data can be easily integrated with these tools.
+The equivalent of Java/Micrometer in .NET is .NET/OpenTelemetry
 
 
