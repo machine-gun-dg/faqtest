@@ -7,8 +7,7 @@
 <br>[4-CONTAINERS](#4-CONTAINERS)
 <br>[5-SECURITY](#5-SECURITY)
 <br>[6-2PC](#6-2PC)
-<br>[z/OS-INTERCOMMUNICATION](#z/OS-INTERCOMMUNICATION)
-<br>[SAS](#SAS)
+<br>[7-SAS](7-#SAS)
 <br>[MISC](#MISC)
 
 ## 1-OVERVIEW
@@ -68,7 +67,7 @@ NIB can use container as well as as bare metal and virtual machine or a combinat
 <br> • **Disk Space** >= 2GB (SSD)
 <br> • **O.S.** >= Windows 10
 
-### * Software
+### + Software
 #### Mandatory
  • **JDK** 17.0 or later 
 <br> • **IDE**
@@ -102,7 +101,7 @@ NIB does support ESDS, KSDS as well as RRDS. NIB has automatic handling of SEQ N
 ### + What are the performance in migrating VSAM to RDBMS?
 As reference on our little demo server we completed a KSDS VSAM of 1M records to PGSQL in 39 seconds using the default approach…. It could be faster depending on the number of horse powers we can count on
 
-### + How does NIIB handle SORT steps in a batch job dealing with VSAM?
+### + How does NIB handle SORT steps in a batch job dealing with VSAM?
 SORT is a powerful utility that offers a wide range of features, including filtering, conditions, merging, and more. However, its complexity can make it challenging to configure, especially when working with VSAM files. To simplify the process and ensure efficient data management, our solution -in similar scenarios- focuses on sequential files (VSAM are transformed to sequential). This approach eliminates the complexities associated with SQL interactions and binary or packed data formats, which would require additional operations like SUBSTR and could potentially lead to incorrect sorting. By working with sequential files, we provide a simpler and more efficient sorting process. Our decision to avoid SQL support was driven by our desire to maintain a lightweight architecture focused on the specific needs of our product.
 
 ### + How does NIB support GDGs?
@@ -112,7 +111,7 @@ GDGs are essentially regular files with an added concept of levels, such as FILE
 
 ### How does NIB manage database connections and transactions in a Docker / Kubernetes environment?
 Exactly like any other Java/.NET application: 
-####Java:
+#### Java:
 <br>- JDBC: We will utilize JDBC to connect to the database and execute SQL queries.
 <br>- JTA: For distributed transactions, we will use JTA to coordinate transactions across multiple data sources, ensuring data consistency.
 ####.NET:
@@ -170,18 +169,8 @@ They are simply rolled back by the transaction manager. The "surviving" pods don
 Yes, NIB uses Atomikos.
 
 
-## z/OS-INTERCOMMUNICATION
 
-### What are the z/OS INTERCOMMUNICATION services that are supported by your solution?
-NIB fully supports  TCP/IP based protocols: HTTP, FTP, Web Services and MQ. 
-<br>NIB exposes TN3270 over IP but do not consume it (we are servers not clients).
-<br>About files exchange we rely on system's product for the file transfer. So we support FTP, SFTP,FTPS, SPAZIO, XCOM...
-<br>CTG / IMS Connect - only partially supported and requires specific analysis
-
-### Could you please specify more about your MQ support?
-NIB supports MQ through JMS (Java Message Service) and IBM MQ Client for Java (or similar like RabbitMQ). Therefore whatever is supported by the latter is supported by NIB.
-
-## SAS
+## 7-SAS
 
 ### Do we support pac decimal fields in SAS?
 Yes, we do, i.e.:  
@@ -214,13 +203,13 @@ Given we have not seen SAS being called by anything else than JCLs all Q&A above
 ### What type of load balancer we need for example level 7 or level 4?
 For the TN3270 protocol (used by online terminals), we utilize a Network Load Balancer (NLB) operating at Layer 4. For all other use cases, including online and batch APIs as well as web services, an Application Load Balancer (ALB) operating at Layer 7 is sufficient. 
 
-### How much Unit Testing and Functional test automation is provided by ML? 
+### How much Unit Testing and Functional test automation is provided? 
 Testing scope extends beyond standard unit and functional testing. We conduct comprehensive pre-delivery testing based on client-provided test cases. These end-to-end tests simulate real-world scenarios, including JCL execution (when feasible), COBOL program submission, database interactions, and integrations with systems like MQ. By producing reports and updating database tables, we verify system functionality. Our largely automated migration process allows for efficient validation with a relatively small test suite. Due to the consistency of our automation, successful test cases often indicate broader code correctness for similar functionalities and patterns.
 
 ### What are the test tools used? 
 For testing we can primarily generated automated Junit tests during the migration that will represent a start point for the subsequent testing (with manual effort required)
 
-### How to integrate scheduler with LIBERM?
+### How to integrate scheduler with NIB?
 The scheduler will schedule jobs, but we have a 'load balancer' component that can distribute these jobs across different batch engines. A batch engine can be a process within a container, a separate virtual machine, or a physical server. Typically, the distribution is based on message class. However, we can also customize it to a more granular level. For instance, we can define multiple Class A engines for high-priority jobs and assign jobs starting with 'XX' to engine A-1, jobs starting with 'YY' to engine A-2, and so on. 
 The load balancer sits between the scheduler and the engines. It doesn't affect the scheduler's configuration beyond the initial setup of the load balancer itself.
 It's worth noting that, independently of the scheduler and on-demand (e.g., using the Grafana dashboard provided by NIB standard package), batch engines can be activated, deactivated, and jobs can be manually submitted or restarted to any engine, even if it's in a different class.
@@ -269,4 +258,32 @@ NIB provides applicative logging capabilities (e.g., Logback), allowing you to c
 In addition, NIB offers Micrometer for application metrics. While we demonstrate Micrometer data with Grafana in the demo, we expect you to use your preferred industry-standard telemetry tool like Dynatrace or AppDynamics. Micrometer's collected data can be easily integrated with these tools.
 The equivalent of Java/Micrometer in .NET is .NET/OpenTelemetry
 
+###  Is dynamic reloading of program supported ? (how is handled a new compiled version deployment)
+Once a program is compiled the equivalent .class is generated.
+The mLogica framework uses a standard Java class loader to load classes into the JVM. 
+When a specific class is needed, the class loader checks if it has already been loaded. 
+If not, it loads the class from a specified location.
+The above applies for both COBOL and Java components (previous COBOL, PLI, etc.. refactored to Java)
 
+
+### What is the best/recommended IDE to develop with Liber*M software ?
+We suggest:
+<br>•	IntelliJ IDEA for Java and 
+<br>•	Eclipse for COBOL and/or Java
+
+
+### How is the transactional monitor configuration captured / migrated (e.g. CICS CSD config file)?
+Each CICS region (called Supernaut Region) is configured using the CSD files configuration from the mainframe.
+CSD is automatically converted in corresponding JSON and YAML config files.
+
+
+
+
+### What are the z/OS INTERCOMMUNICATION services that are supported by your solution?
+NIB fully supports  TCP/IP based protocols: HTTP, FTP, Web Services and MQ. 
+<br>NIB exposes TN3270 over IP but do not consume it (we are servers not clients).
+<br>About files exchange we rely on system's product for the file transfer. So we support FTP, SFTP,FTPS, SPAZIO, XCOM...
+<br>CTG / IMS Connect - only partially supported and requires specific analysis
+
+### Could you please specify more about your MQ support?
+NIB supports MQ through JMS (Java Message Service) and IBM MQ Client for Java (or similar like RabbitMQ). Therefore whatever is supported by the latter is supported by NIB.
