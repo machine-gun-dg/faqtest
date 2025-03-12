@@ -365,3 +365,8 @@ We use a special variable called rcNext (or rcPrev) that is able to track the cu
 rcNext is part of a loop cycle that will be executed till the rcNext hits the “Exit” condition.
 In the loop cycle there is a switch statement that acts as a dispatcher, determining which block of code to execute based on the value of rcNext (or rcPrev). 
 Each case corresponds to a specific flow.
+
+### In the case of Non VSAM files, how did you control the locking between multiple processes that want to access the same file?
+We have two mechanisms in place:
+<br>1) *Logical Lock*: When operating under Motorhead (our equivalent to JES), the job "locks" the dataset similarly to JES. This is a logical lock that mimics the JES approach.
+<br>2) *Physical Lock*: At the time of opening, the file is accessed with the necessary lock mode.
