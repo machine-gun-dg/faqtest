@@ -276,9 +276,6 @@ We suggest:
 Each CICS region (called Supernaut Region) is configured using the CSD files configuration from the mainframe.
 CSD is automatically converted in corresponding JSON and YAML config files.
 
-
-
-
 ### What are the z/OS INTERCOMMUNICATION services that are supported by your solution?
 NIB fully supports  TCP/IP based protocols: HTTP, FTP, Web Services and MQ. 
 <br>NIB exposes TN3270 over IP but do not consume it (we are servers not clients).
@@ -287,3 +284,17 @@ NIB fully supports  TCP/IP based protocols: HTTP, FTP, Web Services and MQ.
 
 ### Could you please specify more about your MQ support?
 NIB supports MQ through JMS (Java Message Service) and IBM MQ Client for Java (or similar like RabbitMQ). Therefore whatever is supported by the latter is supported by NIB.
+
+### Does NIB have a notion of a File Catalog? Where the catalog resides?
+Yes, the catalog is stored in the database. 
+
+### Data Types: COMP-3, Zone Decimal – how those are implemented/supported?
+See an example of COBOL and equivalent Java being generated 
+In our framework we have the concept of NPacked class that define the size of the variable and as well as the sign (true when it is signed).
+In essence we retain the same format that was available on mainframe.
+See a snippet.
+```Java
+// COB:            05 WS-LINE-COUNTER    PIC 9(09) COMP-3
+// COB:                                             VALUE 0.
+public NPacked wsLineCounter = new NPacked(5, false).initial(0);
+
