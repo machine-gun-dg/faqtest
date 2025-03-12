@@ -392,6 +392,14 @@ If we retain the EBCDIC format, no changes.
 <br>If we go to ASCII the collating sequence will be ASCII.
 <br>If for whatever reason we need to retain the EBCDIC collating sequence as that may affect the downstream process we will need to re-engineer the programs
 
+ ### Is your generated code OO?
+This is part of the usual discussion of automated migrated Vs green field development.
+If we compared what we produce versus a green field application the concept of Object Oriented we use is there but with some limitations.
+These are facts:
+<br>•All generated components are objects: programs, fields, data…. 
+<br>•The generated code leverages from OO framework using latest technologies
+In conclusion, we are OO and we could pass formal validations in SonarQube or similar tools, but you will always find a Java developer that will question the OO approach.
+
 [Go Back](#FAQ_Index)
 
 
