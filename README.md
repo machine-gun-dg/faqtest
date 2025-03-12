@@ -113,7 +113,7 @@ SORT is a powerful utility that offers a wide range of features, including filte
 ### + How does NIB support GDGs?
 GDGs are essentially regular files with an added concept of levels, such as FILENAME-LEVEL01, 02, 03... In the target environment, the solution will preserve the same number of levels as on the mainframe. When the maximum level is reached, the data will overwrite the initial level, maintaining the same functionality as on the mainframe. The logic of levels is handled entirely by our framework
 
-### In the case of Non VSAM files, how did you control the locking between multiple processes that want to access the same file?
+### + In the case of Non VSAM files, how did you control the locking between multiple processes that want to access the same file?
 We have two mechanisms in place:
 <br>1) *Logical Lock*: When operating under Motorhead (our equivalent to JES), the job "locks" the dataset similarly to JES. This is a logical lock that mimics the JES approach.
 <br>2) *Physical Lock*: At the time of opening, the file is accessed with the necessary lock mode.
@@ -121,7 +121,7 @@ We have two mechanisms in place:
 ## 4-CONTAINERS
 [Go Back](#FAQ_Index)
 
-### How does NIB manage database connections and transactions in a Docker / Kubernetes environment?
+### + How does NIB manage database connections and transactions in a Docker / Kubernetes environment?
 Exactly like any other Java/.NET application: 
 #### Java:
 <br>- JDBC: We will utilize JDBC to connect to the database and execute SQL queries.
@@ -136,7 +136,7 @@ State management for DB2/IMS DB is handled by the target database. For the files
 ### + In case of Kubernetes do we need a shared volume in Kubernetes?
 If the customer requires to share files across the batch nodes, all the nodes must be connected to the same storage. If it's a shared k8s volume or any other solution (i.e. plain old NFS) it is fine. Of course, performance must be considered when designing the architecture. 
 
-### In Kubernetes, there is a concept of a Job, which is designed for 'fire-and-forget' tasks, meaning it runs a specific workload to completion and then terminates. On the other hand, Kubernetes Services are typically used to expose and manage long-running workloads, such as applications or APIs, that need to be continuously available and accessible. If we decide to deploy our application or workload in Kubernetes, shall we use Kubernetes Jobs or Kubernetes Services? 
+### + In Kubernetes, there is a concept of a Job, which is designed for 'fire-and-forget' tasks, meaning it runs a specific workload to completion and then terminates. On the other hand, Kubernetes Services are typically used to expose and manage long-running workloads, such as applications or APIs, that need to be continuously available and accessible. If we decide to deploy our application or workload in Kubernetes, shall we use Kubernetes Jobs or Kubernetes Services? 
 Services
 
 
@@ -176,16 +176,16 @@ Same as on mainframe. On the mainframe:
 we can invoke driver's API to manage transactions. 
 <br> For the sake of transparency, we do not provide RRSAF equivalent API, but a similar functionality can be replicated using Atomikos/CommittableTransaction.
 
-### Are "in-flight" transactions automatically rolled-back by the surviving pods?
+### + Are "in-flight" transactions automatically rolled-back by the surviving pods?
 They are simply rolled back by the transaction manager. The "surviving" pods don't care of in-flight transactions of the dead one. It's the transaction agent (i.e. the DB) that does not receives a commit therefore rolls back.
 
-### JMS (Java Message Service) and JDBC are typically coordinated by JTA (Java Transaction API to allow distributed transaction) to provide 2PC. Does NIB do the same?
+### + JMS (Java Message Service) and JDBC are typically coordinated by JTA (Java Transaction API to allow distributed transaction) to provide 2PC. Does NIB do the same?
 Yes, NIB uses Atomikos.
 
 ## 7-COBOL
 [Go Back](#FAQ_Index)
 
-### How do you handle COBOL GOTOs?
+### + How do you handle COBOL GOTOs?
 We do eliminate GOTO and GOBACK as well as PERFORM THRU.
 In the generated Java we adopted the concept of *“Gravity Flow”*.
 So Instead of jumping around with GOTO (or Break/Continue statement in Java), our converted structures the generate Java code to follow a linear, top-to-bottom flow. 
@@ -194,7 +194,7 @@ rcNext is part of a loop cycle that will be executed till the rcNext hits the �
 In the loop cycle there is a switch statement that acts as a dispatcher, determining which block of code to execute based on the value of rcNext (or rcPrev). 
 Each case corresponds to a specific flow.
 
-### Is pointer arithmetic supported?
+### + Is pointer arithmetic supported?
 Yes, it is Supported in a similar fashion as on mainframe.  Please see a snippet.
 ```Java
   // COB:        01 WS-JOBNAME-PTR                USAGE POINTER.
@@ -202,12 +202,12 @@ Yes, it is Supported in a similar fashion as on mainframe.  Please see a snippet
 ```
 Please note we do rely on a special NPointer to manage pointers.
 
-### How you support include files, like COPY, especially when the COPY contains block of code.
+### + How you support include files, like COPY, especially when the COPY contains block of code.
 As a general rule:
 <br>•	The copy of data data are generated in a separate class
 <br>•	The copy procedures are expanded in the main class
 
-### Data Types: COMP-3, Zone Decimal – how those are implemented/supported?
+### + Data Types: COMP-3, Zone Decimal – how those are implemented/supported?
 See an example of COBOL and equivalent Java being generated 
 In our framework we have the concept of NPacked class that define the size of the variable and as well as the sign (true when it is signed).
 In essence we retain the same format that was available on mainframe.
@@ -218,7 +218,7 @@ See a snippet.
 public NPacked wsLineCounter = new NPacked(5, false).initial(0);
 ```
 
-### How are redefines mapped to Java? Can you provide some complex examples?
+### + How are redefines mapped to Java? Can you provide some complex examples?
 Please see a COBOL snippet
 ```COBOL
 05 CICS-OUTPUT-EDIT-VARS.
@@ -261,37 +261,36 @@ And equivalent Java generate
 ## 8-SAS
 [Go Back](#FAQ_Index)
 
-### Do we support pac decimal fields in SAS?
-Yes, we do, i.e.:  
+### + In our SAS solution do we support any data source? For example what about VSAM? How do we integrate with the way a third party framework migrates VSAMs? And how we return the data in the exact same format if the SAS expected output is VSAM?
 ```SAS
 @110 ST1MI     PD3.  -> .add(V_ST1MI, 110, SasFormat.PackedDecimal, 3, 0)
 ```
 
-### Do we support EBCDIC?
+### + Do we support EBCDIC?
 Yes, as an option in our SAS runtime
 
-### Do we have entry points in our SAS programs to interface JCLs?
+### + Do we have entry points in our SAS programs to interface JCLs?
 Yes, we do use a customizable SAS launcher wrapper for starting our converted SAS programs that simplify the interfacing with third party framework (like BAge and CTU from IBM)
 
-### What information do we need to know to interface with a third party framework?
+### + What information do we need to know to interface with a third party framework?
 We only need access to the DD info of the step where the converted SAS program is started
 
-### in our SAS solution do we support any data source? For example what about VSAM? How do we integrate with the way a third party framework migrates VSAMs? And how we return the data in the exact same format if the SAS expected output is VSAM?
+### + In our SAS solution do we support any data source? For example what about VSAM? How do we integrate with the way a third party framework migrates VSAMs? And how we return the data in the exact same format if the SAS expected output is VSAM?
 For external I/O (i.e. VSAM) we have interfaces to be implemented with the the actual framework used, we let the framework accessing the actual data
 
-### How do we handle failures/exceptions? What happens if there is a failures/exception in a SAS programs? How do we communicated that to the third party Framework?
+### + How do we handle failures/exceptions? What happens if there is a failures/exception in a SAS programs? How do we communicated that to the third party Framework?
 We have interfaces for logging and exceptions that can be customized to trap any exception or/and error message
 
-### How we can understand the format of the files used in SAS? There is a SAS catalog but do we use it? IF yes how can we identify if a file is a VSAM, Db2 Table, GG, sequential....?
+### + How we can understand the format of the files used in SAS? There is a SAS catalog but do we use it? IF yes how can we identify if a file is a VSAM, Db2 Table, GG, sequential....?
 We rely on the framework starting the converted SAS program to get the info about the files being used in the step, all the file info are injected into the SAS runtime before starting the converted SAS from our SAS wrapper
 
-### What info NIB runtime need to know to integrate with the target framework other that NIB?
+### + What info NIB runtime need to know to integrate with the target framework other that NIB?
 Given we have not seen SAS being called by anything else than JCLs all Q&A above should be enough
 
 ## 9-BATCH
 [Go Back](#FAQ_Index)
 
-### When a job is submitted. What does actually happen? <br>i) a new process is started as JVM with Spring Boot and the application code (groovy then Java). At the end of the JOB execution the JVM is stopped? <br>ii) It trigers a program inside an already up&running JVM with Spring boot?
+### + When a job is submitted. What does actually happen? <br>i) a new process is started as JVM with Spring Boot and the application code (groovy then Java). At the end of the JOB execution the JVM is stopped? <br>ii) It trigers a program inside an already up&running JVM with Spring boot?
 We have both options. We can either:
 <br>i) run a groovy script directly, with a JVM starting and stopping as you described
 <br>ii) use our "JES like" framework (Motorhead). It's a cluster of Spring nodes (containers, VMs, etc.) that takes care of executing scripts in a JES like fashion. So the JVM starts when the node starts and when a job is submitted it is assigned and executed by (one thread on) one of the running JVM. Once it is done, the script is disposed and the JVM is available for the next one. Moreover nodes can be configured with one or more threads, so each JVM can run, isolated, multiple parallel jobs. But this is a pure configuration decision.
@@ -301,7 +300,7 @@ mLogica preference is "JES like" option ii)
 ## 10-ONLINE
 [Go Back](#FAQ_Index)
 
-### How is the transactional monitor configuration captured / migrated (e.g. CICS CSD config file)?
+### + How is the transactional monitor configuration captured / migrated (e.g. CICS CSD config file)?
 Each CICS region (called Supernaut Region) is configured using the CSD files configuration from the mainframe.
 CSD is automatically converted in corresponding JSON and YAML config files.
 
@@ -312,25 +311,25 @@ However, consolidating multiple maps and altering map layouts are more complex t
 ## MISC 
 [Go Back](#FAQ_Index)
 
-### What type of load balancer we need for example level 7 or level 4?
+### + What type of load balancer we need for example level 7 or level 4?
 For the TN3270 protocol (used by online terminals), we utilize a Network Load Balancer (NLB) operating at Layer 4. For all other use cases, including online and batch APIs as well as web services, an Application Load Balancer (ALB) operating at Layer 7 is sufficient. 
 
-### How much Unit Testing and Functional test automation is provided? 
+### + How much Unit Testing and Functional test automation is provided? 
 Testing scope extends beyond standard unit and functional testing. We conduct comprehensive pre-delivery testing based on client-provided test cases. These end-to-end tests simulate real-world scenarios, including JCL execution (when feasible), COBOL program submission, database interactions, and integrations with systems like MQ. By producing reports and updating database tables, we verify system functionality. Our largely automated migration process allows for efficient validation with a relatively small test suite. Due to the consistency of our automation, successful test cases often indicate broader code correctness for similar functionalities and patterns.
 
-### What are the test tools used? 
+### + What are the test tools used? 
 For testing we can primarily generated automated Junit tests during the migration that will represent a start point for the subsequent testing (with manual effort required)
 
-### How to integrate scheduler with NIB?
+### + How to integrate scheduler with NIB?
 The scheduler will schedule jobs, but we have a 'load balancer' component that can distribute these jobs across different batch engines. A batch engine can be a process within a container, a separate virtual machine, or a physical server. Typically, the distribution is based on message class. However, we can also customize it to a more granular level. For instance, we can define multiple Class A engines for high-priority jobs and assign jobs starting with 'XX' to engine A-1, jobs starting with 'YY' to engine A-2, and so on. 
 The load balancer sits between the scheduler and the engines. It doesn't affect the scheduler's configuration beyond the initial setup of the load balancer itself.
 It's worth noting that, independently of the scheduler and on-demand (e.g., using the Grafana dashboard provided by NIB standard package), batch engines can be activated, deactivated, and jobs can be manually submitted or restarted to any engine, even if it's in a different class.
 
-### Is an application server required?
+### + Is an application server required?
 NIB solution is a based on Spring. Therefore it can be used inside any AS that supports Spring. However, with our solution, it is not necessary to use an Application Server. Our preferred solution is without AS. We deploy 100% Spring apps and as such does not require an AS.
 
 
-### Do you support multithreading?
+### + Do you support multithreading?
 if by multithreading we mean if we can start parallel processes then the answer is yes
 
 ### + Does target architecture follow Microservice Architecture?
@@ -357,38 +356,38 @@ Groovy can be provided even for .NET
 Generally, yes; however, for programs to be exposed as Web Services, the original COBOL logic must be specifically coded to support this functionality. 
 If not, transforming existing CICS programs that utilize BMS maps into Web Service logic may require dedicated reengineering steps. 
 
-### What level of logging and tracing that will be available in solution code flow? 
+### + What level of logging and tracing that will be available in solution code flow? 
 NIB provides applicative logging capabilities (e.g., Logback), allowing you to customize logging based on your specific requirements. 
 In addition, NIB offers Micrometer for application metrics. While we demonstrate Micrometer data with Grafana in the demo, we expect you to use your preferred industry-standard telemetry tool like Dynatrace or AppDynamics. Micrometer's collected data can be easily integrated with these tools.
 The equivalent of Java/Micrometer in .NET is .NET/OpenTelemetry
 
-###  Is dynamic reloading of program supported ? (how is handled a new compiled version deployment)
+###  + Is dynamic reloading of program supported ? (how is handled a new compiled version deployment)
 Once a program is compiled the equivalent .class is generated.
 The mLogica framework uses a standard Java class loader to load classes into the JVM. 
 When a specific class is needed, the class loader checks if it has already been loaded. 
 If not, it loads the class from a specified location.
 The above applies for both COBOL and Java components (previous COBOL, PLI, etc.. refactored to Java)
 
-### What is the best/recommended IDE to develop with Liber*M software ?
+### + What is the best/recommended IDE to develop with Liber*M software ?
 We suggest:
 <br>•	IntelliJ IDEA for Java and 
 <br>•	Eclipse for COBOL and/or Java
 
 
 
-### What are the z/OS INTERCOMMUNICATION services that are supported by your solution?
+### + What are the z/OS INTERCOMMUNICATION services that are supported by your solution?
 NIB fully supports  TCP/IP based protocols: HTTP, FTP, Web Services and MQ. 
 <br>NIB exposes TN3270 over IP but do not consume it (we are servers not clients).
 <br>About files exchange we rely on system's product for the file transfer. So we support FTP, SFTP,FTPS, SPAZIO, XCOM...
 <br>CTG / IMS Connect - only partially supported and requires specific analysis
 
-### Could you please specify more about your MQ support?
+### + Could you please specify more about your MQ support?
 NIB supports MQ through JMS (Java Message Service) and IBM MQ Client for Java (or similar like RabbitMQ). Therefore whatever is supported by the latter is supported by NIB.
 
-### Does NIB have a notion of a File Catalog? Where the catalog resides?
+### + Does NIB have a notion of a File Catalog? Where the catalog resides?
 Yes, the catalog is stored in the database. 
 
-### Alphanumeric comparisons: in ASCII context, how EBCDIC comparisons are implemented in java?
+### + Alphanumeric comparisons: in ASCII context, how EBCDIC comparisons are implemented in java?
 If we retain the EBCDIC format, no changes.
 <br>If we go to ASCII the collating sequence will be ASCII.
 <br>If for whatever reason we need to retain the EBCDIC collating sequence as that may affect the downstream process we will need to re-engineer the programs
