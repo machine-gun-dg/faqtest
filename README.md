@@ -298,3 +298,66 @@ See a snippet.
 // COB:                                             VALUE 0.
 public NPacked wsLineCounter = new NPacked(5, false).initial(0);
 
+### How are redefines mapped to Java? Can you provide some complex examples?
+Please see a COBOL snippet
+```COBOL
+05 CICS-OUTPUT-EDIT-VARS.
+           10  CUST-ACCT-ID-X                      PIC X(11).
+           10  CUST-ACCT-ID-N REDEFINES CUST-ACCT-ID-X
+                                                   PIC 9(11).
+           10  WS-EDIT-DATE-X                      PIC X(10).
+           10  FILLER REDEFINES WS-EDIT-DATE-X.
+               20 WS-EDIT-DATE-X-YEAR              PIC X(4).
+               20 FILLER                           PIC X(1).
+               20 WS-EDIT-DATE-MONTH               PIC X(2).
+               20 FILLER                           PIC X(1).
+               20 WS-EDIT-DATE-DAY                 PIC X(2).
+           10  WS-EDIT-DATE-X REDEFINES
+               WS-EDIT-DATE-X                      PIC 9(10).
+           10  WS-EDIT-CURRENCY-9-2                PIC X(15).
+           10  WS-EDIT-CURRENCY-9-2-F              PIC +ZZZ,ZZZ,ZZZ.99.
+And equivalent Java generate
+```Java
+    public static class CicsOutputEditVars extends NGroup {
+      public NChar custAcctIdX = new NChar(11);
+      public NZoned custAcctIdN = new NZoned(11, false).redefines(custAcctIdX);
+      public NChar wsEditDateX = new NChar(10);
+      public static class Filler362 extends NGroup {
+        public NChar wsEditDateXYear = new NChar(4);
+        public NChar filler364 = new NChar(1);
+        public NChar wsEditDateMonth = new NChar(2);
+        public NChar filler366 = new NChar(1);
+        public NChar wsEditDateDay = new NChar(2);
+      }
+
+      public Filler362 filler362 = (Filler362) new Filler362().redefines(wsEditDateX);
+      public NZoned wsEditDateX_ = new NZoned(10, false).redefines(wsEditDateX);
+      public NChar wsEditCurrency9_2 = new NChar(15);
+      public NZoned wsEditCurrency9_2F = new NZoned(15).formatAs("+###,###,###.00");
+    }
+
+### How you support include files, like COPY, especially when the COPY contains block of code.
+As a general rule:
+<br>•	The copy of data data are generated in a separate class
+<br>•	The copy procedures are expanded in the main class
+
+### Alphanumeric comparisons: in ASCII context, how EBCDIC comparisons are implemented in java?
+If we retain the EBCDIC format, no changes.
+<br>If we go to ASCII the collating sequence will be ASCII.
+<br>If for whatever reason we need to retain the EBCDIC collating sequence as that may affect the downstream process we will need to re-engineer the programs
+
+### Is pointer arithmetic supported?
+Yes, it is Supported in a similar fashion as on mainframe.  Please see a snippet.
+'''Java
+  // COB:        01 WS-JOBNAME-PTR                USAGE POINTER.
+  public NPointer wsJobnamePtr = new NPointer();
+Please note we do rely on a special NPointer to manage pointers.
+
+### How do you handle COBOL GOTOs?
+We do eliminate GOTO and GOBACK as well as PERFORM THRU.
+In the generated Java we adopted the concept of *“Gravity Flow”*.
+So Instead of jumping around with GOTO (or Break/Continue statement in Java), our converted structures the generate Java code to follow a linear, top-to-bottom flow. 
+We use a special variable called rcNext (or rcPrev) that is able to track the current state or flow of execution.
+rcNext is part of a loop cycle that will be executed till the rcNext hits the “Exit” condition.
+In the loop cycle there is a switch statement that acts as a dispatcher, determining which block of code to execute based on the value of rcNext (or rcPrev). 
+Each case corresponds to a specific flow.
