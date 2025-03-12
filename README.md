@@ -293,11 +293,11 @@ See an example of COBOL and equivalent Java being generated
 In our framework we have the concept of NPacked class that define the size of the variable and as well as the sign (true when it is signed).
 In essence we retain the same format that was available on mainframe.
 See a snippet.
-```Java
+''''Java
 // COB:            05 WS-LINE-COUNTER    PIC 9(09) COMP-3
 // COB:                                             VALUE 0.
 public NPacked wsLineCounter = new NPacked(5, false).initial(0);
-```
+''''
 ### How are redefines mapped to Java? Can you provide some complex examples?
 Please see a COBOL snippet
 ```COBOL
