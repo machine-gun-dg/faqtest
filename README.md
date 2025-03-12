@@ -1,6 +1,6 @@
 # Frequently Asked Questions (FAQ)
 
-## FAQ Index
+## FAQ_Index
 <br>[1-OVERVIEW](#1-OVERVIEW)
 <br>[2-NIB_REQUIREMENTS](#2-NIB_REQUIREMENTS)
 <br>[3-DATA_FILES](#3-DATA_FILES)
@@ -11,10 +11,9 @@
 <br>[8-SAS](#8-SAS)
 <br>[9-BATCH](#9-BATCH)
 <br>[10-ONLINE](#10-ONLINE)
-
 <br>[MISC](#MISC)
 
-## 1-OVERVIEW
+## 1-OVERVIEW [Go Back](#FAQ_Index)
 
 ### + What is NIB?
 NIB is a comprehensive tool designed to automate the migration and modernization of legacy applications. It comprises three major components:
@@ -256,7 +255,9 @@ And equivalent Java generate
 
 ### Do we support pac decimal fields in SAS?
 Yes, we do, i.e.:  
+```SAS
 @110 ST1MI     PD3.  -> .add(V_ST1MI, 110, SasFormat.PackedDecimal, 3, 0)
+```
 
 ### Do we support EBCDIC?
 Yes, as an option in our SAS runtime
