@@ -293,11 +293,12 @@ See an example of COBOL and equivalent Java being generated
 In our framework we have the concept of NPacked class that define the size of the variable and as well as the sign (true when it is signed).
 In essence we retain the same format that was available on mainframe.
 See a snippet.
-''''Java
+```Java
 // COB:            05 WS-LINE-COUNTER    PIC 9(09) COMP-3
 // COB:                                             VALUE 0.
 public NPacked wsLineCounter = new NPacked(5, false).initial(0);
-''''
+```
+
 ### How are redefines mapped to Java? Can you provide some complex examples?
 Please see a COBOL snippet
 ```COBOL
@@ -316,6 +317,7 @@ Please see a COBOL snippet
                WS-EDIT-DATE-X                      PIC 9(10).
            10  WS-EDIT-CURRENCY-9-2                PIC X(15).
            10  WS-EDIT-CURRENCY-9-2-F              PIC +ZZZ,ZZZ,ZZZ.99.
+```
 And equivalent Java generate
 ```Java
     public static class CicsOutputEditVars extends NGroup {
@@ -335,6 +337,7 @@ And equivalent Java generate
       public NChar wsEditCurrency9_2 = new NChar(15);
       public NZoned wsEditCurrency9_2F = new NZoned(15).formatAs("+###,###,###.00");
     }
+```
 
 ### How you support include files, like COPY, especially when the COPY contains block of code.
 As a general rule:
@@ -348,9 +351,10 @@ If we retain the EBCDIC format, no changes.
 
 ### Is pointer arithmetic supported?
 Yes, it is Supported in a similar fashion as on mainframe.  Please see a snippet.
-'''Java
+```Java
   // COB:        01 WS-JOBNAME-PTR                USAGE POINTER.
   public NPointer wsJobnamePtr = new NPointer();
+```
 Please note we do rely on a special NPointer to manage pointers.
 
 ### How do you handle COBOL GOTOs?
