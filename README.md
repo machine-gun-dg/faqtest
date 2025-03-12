@@ -13,7 +13,8 @@
 <br>[10-ONLINE](#10-ONLINE)
 <br>[MISC](#MISC)
 
-## 1-OVERVIEW [Go Back](#FAQ_Index)
+## 1-OVERVIEW 
+[Go Back](#FAQ_Index)
 
 ### + What is NIB?
 NIB is a comprehensive tool designed to automate the migration and modernization of legacy applications. It comprises three major components:
@@ -63,6 +64,7 @@ There are a variety of frameworks that we can use but primarily we use **Spring 
 NIB can use container as well as as bare metal and virtual machine or a combinations of all
 
 ## 2-NIB_REQUIREMENTS
+[Go Back](#FAQ_Index)
 
 ### + Target - VM Hardware / OS
  • **CPU** >= Min i7 or similar
@@ -92,6 +94,7 @@ NIB can use container as well as as bare metal and virtual machine or a combinat
 
 
 ## 3-DATA_FILES
+[Go Back](#FAQ_Index)
 
 ### + How the VSAM migration work? 
 We have 2 approaches:
@@ -116,6 +119,7 @@ We have two mechanisms in place:
 <br>2) *Physical Lock*: At the time of opening, the file is accessed with the necessary lock mode.
 
 ## 4-CONTAINERS
+[Go Back](#FAQ_Index)
 
 ### How does NIB manage database connections and transactions in a Docker / Kubernetes environment?
 Exactly like any other Java/.NET application: 
@@ -137,6 +141,7 @@ Services
 
 
 ## 5-SECURITY
+[Go Back](#FAQ_Index)
 
 ### + What is the NIB authentication mechanism for APIs OOTB (out of the box)?
 NIB does not have a specific preference for the authentication mechanism; NIB can interface (with an ad hoc interface) any available authentication method requested by the client.
@@ -149,6 +154,7 @@ Application security is migrated as-is.
 We can convert RACF to AD but this is not part of our standard proposal and this requires some special considerations given security migration can only be partially automated 
 
 ## 6-2PC 
+[Go Back](#FAQ_Index)
 
 ### + Does the NIB framework support two phase commit?
 Yes, it does. In particular:
@@ -177,6 +183,7 @@ They are simply rolled back by the transaction manager. The "surviving" pods don
 Yes, NIB uses Atomikos.
 
 ## 7-COBOL
+[Go Back](#FAQ_Index)
 
 ### How do you handle COBOL GOTOs?
 We do eliminate GOTO and GOBACK as well as PERFORM THRU.
@@ -252,6 +259,7 @@ And equivalent Java generate
 ```
 
 ## 8-SAS
+[Go Back](#FAQ_Index)
 
 ### Do we support pac decimal fields in SAS?
 Yes, we do, i.e.:  
@@ -281,6 +289,7 @@ We rely on the framework starting the converted SAS program to get the info abou
 Given we have not seen SAS being called by anything else than JCLs all Q&A above should be enough
 
 ## 9-BATCH
+[Go Back](#FAQ_Index)
 
 ### When a job is submitted. What does actually happen? <br>i) a new process is started as JVM with Spring Boot and the application code (groovy then Java). At the end of the JOB execution the JVM is stopped? <br>ii) It trigers a program inside an already up&running JVM with Spring boot?
 We have both options. We can either:
@@ -290,6 +299,7 @@ mLogica preference is "JES like" option ii)
 
 
 ## 10-ONLINE
+[Go Back](#FAQ_Index)
 
 ### How is the transactional monitor configuration captured / migrated (e.g. CICS CSD config file)?
 Each CICS region (called Supernaut Region) is configured using the CSD files configuration from the mainframe.
@@ -300,6 +310,7 @@ Yes, NIB can automate certain layout changes within specific limits. For instanc
 However, consolidating multiple maps and altering map layouts are more complex tasks that require dedicated analysis and migration services. 
 
 ## MISC 
+[Go Back](#FAQ_Index)
 
 ### What type of load balancer we need for example level 7 or level 4?
 For the TN3270 protocol (used by online terminals), we utilize a Network Load Balancer (NLB) operating at Layer 4. For all other use cases, including online and batch APIs as well as web services, an Application Load Balancer (ALB) operating at Layer 7 is sufficient. 
@@ -382,6 +393,7 @@ If we retain the EBCDIC format, no changes.
 <br>If we go to ASCII the collating sequence will be ASCII.
 <br>If for whatever reason we need to retain the EBCDIC collating sequence as that may affect the downstream process we will need to re-engineer the programs
 
+[Go Back](#FAQ_Index)
 
 
 
