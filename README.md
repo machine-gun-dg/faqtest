@@ -400,6 +400,11 @@ These are facts:
 <br>•The generated code leverages from OO framework using latest technologies
 In conclusion, we are OO and we could pass formal validations in SonarQube or similar tools, but you will always find a Java developer that will question the OO approach.
 
+### What level of tracing is available in NIB? 
+NIB is based on Micrometer for application metrics. While we demonstrate Micrometer data with Grafana in the demo, we expect you to use your preferred industry-standard telemetry tool like Dynatrace or AppDynamics. Micrometer's collected data can be easily integrated with these tools.
+The equivalent of Java/Micrometer is .NET/OpenTelemetry
+
+
 [Go Back](#FAQ_Index)
 
 
