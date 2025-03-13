@@ -404,6 +404,14 @@ In conclusion, we are OO and we could pass formal validations in SonarQube or si
 NIB is based on Micrometer for application metrics. While we demonstrate Micrometer data with Grafana in the demo, we expect you to use your preferred industry-standard telemetry tool like Dynatrace or AppDynamics. Micrometer's collected data can be easily integrated with these tools.
 The equivalent of Java/Micrometer is .NET/OpenTelemetry
 
+### Why we use Byte Arrays and why BigData type for all numerics?
+In our migration from COBOL to Java, our engines convert all data types into byte arrays. 
+A byte array is a data structure that stores a sequence of bytes used to represent the data as it was used in COBOL on mainframe.  Byte arrays allow direct access to memory, enabling faster read and write operations. 
+Byte Arrays avoid the overhead associated with higher-level data structures that require marshalling (converting data into a format suitable for transmission or storage) and unmarshalling (converting it back) that was the main performance bottleneck in tools like IBM/Adanced CTU.
+Operations such as reading, writing, and updating can be performed in chunks. This means that instead of processing one data element at a time, we can handle larger blocks of data, reducing the number of read/write operations and improving throughput.
+When computational operations (like addition, multiplication, or division) are required in Java, the byte arrays are converted/remapped in our framework to BigDecimal. This conversion is necessary for maintaining precision over decimal places and rounding, which is essential for adhering to COBOL’s standards of handling numeric data.
+
+
 
 [Go Back](#FAQ_Index)
 
