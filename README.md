@@ -126,7 +126,7 @@ Exactly like any other Java/.NET application:
 #### Java:
 <br>- JDBC: We will utilize JDBC to connect to the database and execute SQL queries.
 <br>- JTA: For distributed transactions, we will use JTA to coordinate transactions across multiple data sources, ensuring data consistency.
-####.NET:
+#### .NET:
 <br>- ADO.NET: to connect to the target DB and execute SQL queries 
 <br>- TransactionScope: for distributed transactions we use TransactionScope class part of .NET or, if available, the  TransactionScope class provided by the target DB
 
