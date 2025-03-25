@@ -515,7 +515,9 @@ Operations such as reading, writing, and updating can be performed in chunks. Th
 When computational operations (like addition, multiplication, or division) are required in Java, the byte arrays are converted/remapped in our framework to BigDecimal. This conversion is necessary for maintaining precision over decimal places and rounding, which is essential for adhering to COBOL’s standards of handling numeric data.
 
 ### Performance considerations
-Network latency is clearly a topic that has our TOP priority and the infrastructure we proposed aims to limit the network latency. With that said network latency is a factor that cannot be completely eliminated. To mitigate the effect of network latency: 
+Network latency is clearly a topic that has our TOP priority and the infrastructure we proposed aims to limit the network latency. 
+With that said network latency is a factor that cannot be completely eliminated. 
+To mitigate the effect of network latency: 
 <br>1) Since the very early stages of the pre-delivery testing phases, we focus on possible performance bottlenecks.  
 <br>2) If the bottleneck come from possible infrastructure constraints we will work with the SI/Dell to address and solve such limitations  
 <br>3) If it is a problem on how mLogica converted/adapted the components or in mLogica framework it is part of the mLogica best practice to take care of such limitations. 
