@@ -55,8 +55,6 @@ There are a variety of frameworks that we can use but primarily we use **Spring 
 <br>The major external libraries used are:
 <br> • **Spring Framework** a comprehensive and popular platform for building Java applications, providing support for widely used architectural patterns and components.
 <br> • **Apache Commons** a collection of reusable Java components that address common programming patterns.
-<br> • **Google Guava** set of core Java libraries from Google, providing utilities for collections, caching, concurrency, and more.
-<br> • **Netty** High-performance asynchronous event-driven network application framework.
 <br> • **Atomikos** Provides transaction management and connection pooling for Java applications, primarily focused on distributed transactions to ensure data consistency across multiple databases or systems, even in case of failures.
 <br> **NOTE:** an accurate list of framework depends on the specific configuration that will be adopted for the specific project. 
 
@@ -152,6 +150,9 @@ Application security is migrated as-is.
 
 ### + Does NIB refactor the RACF components (service accounts/user profiles) and take care in the ASP.NET code? For example, when we read files, file access & resposition is created thru RACF. But in ASP.NET we have to add extra code on authorization call to Azure AD . Does this is done automatically during refactoring process? 
 We can convert RACF to AD but this is not part of our standard proposal and this requires some special considerations given security migration can only be partially automated 
+
+### + Do you support Encryption?
+Data encryption is fully supported by NIB for both in transit and at rest by leveraging the target platform provided capabilities of dedicated software. In the customers we worked with this was completely transparent for the code it is fully handled by the infrastructure with server-side encryption enabled, using encryption keys and database encryption enabled and all connections are performed with SSL.  
 
 ## 6-2PC 
 [Go Back](#FAQ_Index)
@@ -513,7 +514,14 @@ Byte Arrays avoid the overhead associated with higher-level data structures that
 Operations such as reading, writing, and updating can be performed in chunks. This means that instead of processing one data element at a time, we can handle larger blocks of data, reducing the number of read/write operations and improving throughput.
 When computational operations (like addition, multiplication, or division) are required in Java, the byte arrays are converted/remapped in our framework to BigDecimal. This conversion is necessary for maintaining precision over decimal places and rounding, which is essential for adhering to COBOL’s standards of handling numeric data.
 
-
+### Performance considerations
+Network latency is clearly a topic that has our TOP priority and the infrastructure we proposed aims to limit the network latency. With that said network latency is a factor that cannot be completely eliminated. To mitigate the effect of network latency: 
+<br>1) Since the very early stages of the pre-delivery testing phases, we focus on possible performance bottlenecks.  
+<br>2) If the bottleneck come from possible infrastructure constraints we will work with the SI/Dell to address and solve such limitations  
+<br>3) If it is a problem on how mLogica converted/adapted the components or in mLogica framework it is part of the mLogica best practice to take care of such limitations. 
+<br>4) Please note we focus on existing SLAs: 
+<br>4.1) In some case performance detriments can be accepted (online maps) 
+<br>4.2) In some other cases performance detriment will not be acceptable (chain of batch). In such cases it may be required some re-engineering of the migrated applications (e.g cursors)
 
 [Go Back](#FAQ_Index)
 
