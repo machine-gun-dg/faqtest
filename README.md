@@ -308,6 +308,87 @@ CSD is automatically converted in corresponding JSON and YAML config files.
 Yes, NIB can automate certain layout changes within specific limits. For instance, applying logos, font styles, colors, and footers can be easily automated. 
 However, consolidating multiple maps and altering map layouts are more complex tasks that require dedicated analysis and migration services. 
 
+### + Can we know more details about how BMS and MFS are migrated?
+For each NIB automatically generates 3 components:
+<br>1) JSON file equivalent tpo the original map (BMS/MFS), the syntax is very similar, for example:
+```BMS
+COSGN00 DFHMSD CTRL=(ALARM,FREEKB),                                    -
+               EXTATT=YES,                                             -
+               LANG=COBOL,                                             -
+               MODE=INOUT,                                             -
+               STORAGE=AUTO,                                           -
+               TIOAPFX=YES,                                            -
+               TYPE=&&SYSPARM
+COSGN0A DFHMDI COLUMN=1,                                               -
+               LINE=1,                                                 -
+               SIZE=(24,80)
+        DFHMDF ATTRB=(ASKIP,NORM),                                     -
+               COLOR=BLUE,                                             -
+               LENGTH=6,                                               -
+               POS=(1,1),                                              -
+               INITIAL='Tran :'
+TRNNAME DFHMDF ATTRB=(ASKIP,FSET,NORM),                                -
+               COLOR=BLUE,                                             -
+               LENGTH=4,                                               -
+               POS=(1,8)
+```
+```JSON
+{
+  "name": "COSGN00",
+  "maps": [
+     {
+        "name": "COSGN0A",
+        "freeKb": true,
+        "resetMdt": false,
+        "sync": false,
+        "row": 1,
+        "column": 1,
+        "width": 80,
+        "height": 24,
+        "accum": "Detail",
+        "basename": "",
+        "justified": "Default",
+        "eaColor": true,
+        "eaPs": true,
+        "eaHilight": true,
+        "eaValidn": true,
+        "eaOutline": false,
+        "eaSosi": false,
+        "eaBkgTrans": false,
+         "fields" : [
+       {
+          "name": "",
+          "type": "Constant",
+          "numeric": false,
+          "length": 6,
+          "row": 1,
+          "column": 1,
+          "attribute": "30",
+          "inputAlign": "Left",
+          "outputAlign": "Left",
+          "cursor": false,
+          "hilight": "00",
+          "validation": "00",
+          "color": "f1",
+          "outline": "00",
+          "sosi": false,
+          "filler": " ",
+          "initial": "Tran :",
+          "dbcsOpts": "02",
+          "ps": "00"
+          }
+```
+<br>2) Mapsetname_mapname.html, this is the HTML version of the map
+<br>3) Mapsetname_mapname.ts  that is TypeScript that contains: 
+<br>3.1)	The html template referenced 
+<br>3.2)	The code is the controller of the HTML form and the methods to interact with the underlying Spring Boot application e.g. sendKey method could call a service method to send the data to the server. 
+<br>3.3)	The “Angular Service” is responsible to populate the map
+
+### + Given all maps , including MFS are converted BMS, what about the extra features available in MFS?
+MFS has additional capabilities when compared to BMS such as dynamic attributes to fields (such es visibility and editability that can change based on business logic). 
+For this reason during the migration the tool generates BMS + COBOL / Java programs to handle the additional control.  
+
+
 ## MISC 
 [Go Back](#FAQ_Index)
 
