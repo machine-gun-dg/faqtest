@@ -311,6 +311,7 @@ However, consolidating multiple maps and altering map layouts are more complex t
 ### + Can we know more details about how BMS and MFS are migrated?
 For each NIB automatically generates 3 components:
 <br>1) JSON file equivalent tpo the original map (BMS/MFS), the syntax is very similar, for example:
+<br> BMS snippet
 ```BMS
 COSGN00 DFHMSD CTRL=(ALARM,FREEKB),                                    -
                EXTATT=YES,                                             -
@@ -332,6 +333,7 @@ TRNNAME DFHMDF ATTRB=(ASKIP,FSET,NORM),                                -
                LENGTH=4,                                               -
                POS=(1,8)
 ```
+<br> JSON equivalent snippet
 ```JSON
 {
   "name": "COSGN00",
