@@ -185,6 +185,17 @@ Yes, NIB uses Atomikos.
 ## 7-COBOL
 [Go Back](#FAQ_Index)
 
+### + How can I modify a Java program?
+<br>Make sure to connect to the debug region in 3270
+<br>Make sure to have started the region in debug mode
+<br>As an example look at program 
+<br>COMEN01C that is the first map after login 
+<br>Change the message from
+<br>“Please enter a valid option number...” 
+<br>Into  
+<br>“Please SELECT a valid option number...” 
+<br>Then Build (no Build project) and show the changes in the debug region. 
+
 ### + How do you handle COBOL GOTOs?
 We do eliminate GOTO and GOBACK as well as PERFORM THRU.
 In the generated Java we adopted the concept of *“Gravity Flow”*.
@@ -289,6 +300,14 @@ Given we have not seen SAS being called by anything else than JCLs all Q&A above
 
 ## 9-BATCH
 [Go Back](#FAQ_Index)
+
+### + How can I submit JCLs?
+<br>i) Using NIB web interface via Grafana.
+<br>ii) Using API Simulator (e.g. Postman) based on RestFULL calls
+<br>iii) via Command line afted making sure the proper 
+<br>set PATH=%NIB_JAVA_HOME%\bin;%PATH%
+<br>cd C:\WorkArea\resources\git\divergeek\nib-java\bin  
+<br>.\mh job submit CUSTFILE.groovy
 
 ### + When a job is submitted. What does actually happen? <br>i) a new process is started as JVM with Spring Boot and the application code (groovy then Java). At the end of the JOB execution the JVM is stopped? <br>ii) It trigers a program inside an already up&running JVM with Spring boot?
 We have both options. We can either:
