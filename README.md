@@ -331,7 +331,7 @@ mLogica preference is "JES like" option ii)
 ## 10-ONLINE
 [Go Back](#FAQ_Index)
 
-### + Whast is NIB*TP?
+### + What is NIB*TP?
 **Description:** NIB TP, also referred to as a "region," handles online transaction processing. It has two main components: Region Nodes and the Backbone.
 <br>**Region Nodes:** These nodes are responsible for running the moved mainframe applications. They are built with Spring and can operate in various environments: 
 <br>• On regular physical servers or virtual machines (VMs), leveraging automatic scaling capabilities like GCP MIG, AWS ECS, and Azure VMSS.
@@ -342,6 +342,22 @@ mLogica preference is "JES like" option ii)
 <br>• REDIS Backbone: The region utilizes a REDIS database to facilitate data sharing among nodes.
 <br>• Hazelcast backbone: The region uses a Hazelcast cache for data sharing (experimental).
 
+### + TN3279 Gateway. What is it?
+**Description:** The TN3270 gateway is an optional component that converts the TN3270 protocol used by user terminals into TP requests. This allows users to continue using preferred 3270 terminals or emulators.
+<br>**Functionality:** Existing screen definitions (BMS/MFS maps) are automatically converted into internal JSON files during migration. The TN3270 gateway transforms this information back into native 3270 data streams over IP.
+<br>**Communication:** It exposes a TCP port for terminal connections and communicates with TP region nodes using HTTP REST requests.
+<br>**Scalability and Availability**: For scalability and availability, multiple TN3270 gateway nodes should be deployed. Workload can be distributed across these independent nodes using a Layer 4 load balancer (e.g., a LoadBalancer Kubernetes service).
+<br>**Configuration:** The TN3270 gateway must be configured to address the endpoint exposed by the Liber*TP NLB to ensure requests reach the Liber*TP region. Source includes a diagram showing Terminals connecting via TCP to TN3270 GWs, which connect via NLB to Liber*TP GWs, which connect via NLB to multiple Liber*TP nodes via HTTP.
+
+**Description:** NIB TP, also referred to as a "region," handles online transaction processing. It has two main components: Region Nodes and the Backbone.
+<br>**Region Nodes:** These nodes are responsible for running the moved mainframe applications. They are built with Spring and can operate in various environments: 
+<br>• On regular physical servers or virtual machines (VMs), leveraging automatic scaling capabilities like GCP MIG, AWS ECS, and Azure VMSS.
+<br>• Containerized using technologies such as Kubernetes, OpenShift, Docker Compose, AWS ECS & EKS, GCP GKE & Cloud Run, and Azure ACI & AKS.
+<br>• Serverless on cloud functions like AWS Lambdas, Google Cloud Functions, and Azure Functions.
+<br>**The Backbone:** This component acts as the communication system that allows Region Nodes to share memory and resources. There are different backbone options: 
+<br>• Embedded Backbone: A single Region Node operates independently, with no data sharing with other nodes. This is generally used in test or development environments.
+<br>• REDIS Backbone: The region utilizes a REDIS database to facilitate data sharing among nodes.
+<br>• Hazelcast backbone: The region uses a Hazelcast cache for data sharing (experimental).
 
 ### + How is the transactional monitor configuration captured / migrated (e.g. CICS CSD config file)?
 Each CICS region (called Supernaut Region) is configured using the CSD files configuration from the mainframe.
@@ -489,10 +505,12 @@ Groovy can be provided even for .NET
 Generally, yes; however, for programs to be exposed as Web Services, the original COBOL logic must be specifically coded to support this functionality. 
 If not, transforming existing CICS programs that utilize BMS maps into Web Service logic may require dedicated reengineering steps. 
 
-### + What level of logging and tracing that will be available in solution code flow? 
-NIB provides applicative logging capabilities (e.g., Logback), allowing you to customize logging based on your specific requirements. 
-In addition, NIB offers Micrometer for application metrics. While we demonstrate Micrometer data with Grafana in the demo, we expect you to use your preferred industry-standard telemetry tool like Dynatrace or AppDynamics. Micrometer's collected data can be easily integrated with these tools.
-The equivalent of Java/Micrometer in .NET is .NET/OpenTelemetry
+### + What level of logging, monitoring and tracing that will be available in solution code flow? 
+**Logging:** NIB components use a  java standard logging framework (SLF4J) and is deployed by default with Logback. Therefore, it can be used to ship logs, from the online and from the jobs, to any standard log aggregator.
+In our demo system, we use Loki as aggregator, but any other would do. For example, others like ElasticSearch, GCP Cloud Logging, AWS CloudWatch are some of the possible options
+<br>**Monitoring:** NIB components expose measurements and diagnostic info using the Spring standard framework, (micrometer.io). Therefore, they can be observed from any monitoring or alerting system.
+In our demo system, we use Prometheus to poll and collect measurements and Grafana to visualize it, but any the list of options supported by Micrometer is extensive (for example GCP Cloud Monitoring or AWS CloudWatch and many others)
+<br>**Tracing:** NIB also allows tracing, still using micrometer, so it can be integrated with tracing tools to diagnose bottlenecks and performance issues. In our demo system, we use a combination of Tempo and Grafana, but, of course, there are other options (Jaeger, Zipkin, GCP Cloud Trace and others).
 
 ###  + Is dynamic reloading of program supported ? (how is handled a new compiled version deployment)
 Once a program is compiled the equivalent .class is generated.
