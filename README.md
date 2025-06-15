@@ -321,15 +321,15 @@ mLogica preference is "JES like" option ii)
 [Go Back](#FAQ_Index)
 
 ### + Whast is NIB*TP?
-<br>**Description:** LIBER*M TP, also referred to as a "region," handles online transaction processing. It has two main components: Region Nodes and the Backbone.
+**Description:** LIBER*M TP, also referred to as a "region," handles online transaction processing. It has two main components: Region Nodes and the Backbone.
 <br>**Region Nodes:** These nodes are responsible for running the moved mainframe applications. They are built with Spring and can operate in various environments: 
-<br>•On regular physical servers or virtual machines (VMs), leveraging automatic scaling capabilities like GCP MIG, AWS ECS, and Azure VMSS.
-<br>•Containerized using technologies such as Kubernetes, OpenShift, Docker Compose, AWS ECS & EKS, GCP GKE & Cloud Run, and Azure ACI & AKS.
-<br>•Serverless on cloud functions like AWS Lambdas, Google Cloud Functions, and Azure Functions.
+<br>• On regular physical servers or virtual machines (VMs), leveraging automatic scaling capabilities like GCP MIG, AWS ECS, and Azure VMSS.
+<br>• Containerized using technologies such as Kubernetes, OpenShift, Docker Compose, AWS ECS & EKS, GCP GKE & Cloud Run, and Azure ACI & AKS.
+<br>• Serverless on cloud functions like AWS Lambdas, Google Cloud Functions, and Azure Functions.
 <br>**The Backbone:** This component acts as the communication system that allows Region Nodes to share memory and resources. There are different backbone options: 
-<br>•Embedded Backbone: A single Region Node operates independently, with no data sharing with other nodes. This is generally used in test or development environments.
-<br>•REDIS Backbone: The region utilizes a REDIS database to facilitate data sharing among nodes.
-<br>•Hazelcast backbone: The region uses a Hazelcast cache for data sharing (experimental).
+<br>• Embedded Backbone: A single Region Node operates independently, with no data sharing with other nodes. This is generally used in test or development environments.
+<br>• REDIS Backbone: The region utilizes a REDIS database to facilitate data sharing among nodes.
+<br>• Hazelcast backbone: The region uses a Hazelcast cache for data sharing (experimental).
 
 
 ### + How is the transactional monitor configuration captured / migrated (e.g. CICS CSD config file)?
