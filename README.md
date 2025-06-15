@@ -573,6 +573,17 @@ To mitigate the effect of network latency:
 <br>4.1) In some case performance detriments can be accepted (online maps) 
 <br>4.2) In some other cases performance detriment will not be acceptable (chain of batch). In such cases it may be required some re-engineering of the migrated applications (e.g cursors)
 
+
+### Would you recommend REDIS as purely in memory or with a persistent configuration?
+Suggested approach favors using in-memory processing for both Transaction Processing and batch workloads for optimal performance. However, if there's a requirement for JCL queues in batch processing to be recoverable after a system crash, then a persistent storage approach should be chosen for those batch operations to ensure data durability. More details below.
+<br>**In-Memory Redis:**
+<br>Pros: It's the fastest option because there's no disk activity, and it's simpler to set up and manage.
+<br>Con: The main downside is that all data is lost if Redis crashes. For our specific use: data loss isn't an issue. Redis primarily holds CICS “shared memory” elements like temporary data like map displays or terminal details. If Redis crashes, users just need to reconnect. 
+<br>**Persistent Redis:**
+<br>Pros Data can be recovered after a crash. This may have a sense if JES Qs needs to be resumed after a crash
+<br>Con: It has some performance overhead due to disk operations. (Given our context, the benefit of data recovery is less critical.)
+
+
 [Go Back](#FAQ_Index)
 
 
