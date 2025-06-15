@@ -327,6 +327,17 @@ We have both options. We can either:
 <br>ii) use our "JES like" framework (Motorhead). It's a cluster of Spring nodes (containers, VMs, etc.) that takes care of executing scripts in a JES like fashion. So the JVM starts when the node starts and when a job is submitted it is assigned and executed by (one thread on) one of the running JVM. Once it is done, the script is disposed and the JVM is available for the next one. Moreover nodes can be configured with one or more threads, so each JVM can run, isolated, multiple parallel jobs. But this is a pure configuration decision.
 mLogica preference is "JES like" option ii)
 
+### +How does NIB BATCH interpret %OPC RECOVER instructions? Is automatic job restart fully supported?
+Not supported, JCL must be reengineered. If it is a common pattern, a solution can be defined once the code is analysised fully.
+
+### +How are %OPC SETFORM and %OPC SETVAR instructions handled?
+Provided that NIB handles JCL per-se and does not replace OPC (or any other scheduler). Common patterns like the one in the question must be analysed and adapted to corresponding Groovy syntaxes at transformation time
+
+### +Are JOB card parameters like CLASS, PRTY, and job limits supported by NIB? Specifically, how are job concurrency and execution priority managed?
+NIB supports job classes. Priority and concurrency are concept totally different in the target world, especially in containerized solutions such as k8s. In the target every job class is configured with a certain number of k8s pods. So the worload management must be done by k8s: for example, having 5 pods in class A and 1 pod class B, means that you will be running 5 class A jobs in parallel while class B is serialized.
+
+### +Are DB2 utilities such as DSNUTILB, DSNTIAUL, DSNTEP2, and DSNTEP4 fully supported? If special handling is required, what level of effort should be anticipated?
+DSNUTILB is partially supported. The others arent. during the calibration exercise, use case will be analysed and the effort for building the missing features estimated
 
 ## 10-ONLINE
 [Go Back](#FAQ_Index)
@@ -583,6 +594,8 @@ Suggested approach favors using in-memory processing for both Transaction Proces
 <br>Pros Data can be recovered after a crash. This may have a sense if JES Qs needs to be resumed after a crash
 <br>Con: It has some performance overhead due to disk operations. (Given our context, the benefit of data recovery is less critical.)
 
+### What sorting solution do you recommend?  How does it integrate with the migrated COBOL programs that typically use SORT verb?
+NIB provides an internal sort utility
 
 [Go Back](#FAQ_Index)
 
