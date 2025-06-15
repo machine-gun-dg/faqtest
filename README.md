@@ -437,6 +437,13 @@ For this reason during the migration the tool generates BMS + COBOL / Java progr
 ## MISC 
 [Go Back](#FAQ_Index)
 
+### + Load Balancers?
+**Description:** Load Balancers are components used to distribute requests across nodes.
+<br>**TP:** All TP nodes expose REST APIs and are equally capable of processing transaction requests. Therefore, a Load Balancer is essential to distribute requests among the region nodes. An application (Layer 7 - HTTP) load balancer is typically the preferred choice for routing requests to the cluster nodes, with examples including NGINX, Traefik, GKE Ingress, and physical options like F5. Layer 4 Network Load Balancers (NLB) are also feasible, for example, exposing a Kubernetes deployment with a LoadBalancer type service.
+<br>**BATCH:** every node in a NIBBatch cluster can handle administration and job submission requests. Admin requests are processed by the node that receives them. Job submit requests are stored in a queue in the backbone (REDIS) and managed by the first available initiator of the appropriate class. While sending all requests to a single node is technically possible without performance impact, it's inconvenient for scaling. Two main options exist for handling requests: 
+<br>• Using one or more proxy nodes specifically to receive and process requests.
+<br>• Simply distributing requests with a load balancer, using the same options described for TP (Layer 7 or Layer 4).
+
 ### + What type of load balancer we need for example level 7 or level 4?
 For the TN3270 protocol (used by online terminals), we utilize a Network Load Balancer (NLB) operating at Layer 4. For all other use cases, including online and batch APIs as well as web services, an Application Load Balancer (ALB) operating at Layer 7 is sufficient. 
 
