@@ -302,6 +302,17 @@ Given we have not seen SAS being called by anything else than JCLs all Q&A above
 ## 9-BATCH
 [Go Back](#FAQ_Index)
 
+### + Whast is NIBBATCH?
+**Description:** NIBBatch is the NIB batch job coordinator. It functions similarly to IBM's z/OS Job Entry Subsystem (JES) for submitting and managing batch jobs on NIB platforms.
+<br>**Cluster Components**: A NIBBatch cluster includes one or more initiator nodes, optional proxy nodes, and a backbone.
+<br>**Initiator Nodes:** These are JVMs ("initiators") that execute batch jobs. Each initiator is assigned to a specific class. A single node can host multiple initiators belonging to different classes, and initiators of the same class can run on different nodes, allowing for flexible cluster configurations based on workload. These job execution nodes can run in environments similar to TP nodes: 
+<br>• On regular physical servers or virtual machines (VMs), leveraging automatic scaling capabilities like GCP MIG, AWS ECS, and Azure VMSS.
+<br>• Containerized using technologies such as Kubernetes, OpenShift, Docker Compose, AWS ECS & EKS, GCP GKE & Cloud Run, and Azure ACI & AKS.
+<br>• Serverless on cloud functions like AWS Lambdas, Google Cloud Functions, and Azure Functions.
+<br>**Proxy Nodes:** While any node can handle administration and monitoring requests, using execution nodes for these services might be less ideal in environments where nodes are frequently added or removed. A proxy node is a node without any initiators. Its primary role is to provide access to administrative and monitoring APIs. Multiple proxy nodes can be deployed for availability.
+<br>**The Backbone:** The NOBBatch cluster uses a REDIS database as its backbone to manage shared resources, including sharing job queues.
+
+
 ### + How can I submit JCLs?
 <br>i) Using NIB web interface via Grafana.
 <br>ii) Using API Simulator (e.g. Postman) based on RestFULL calls
@@ -321,7 +332,7 @@ mLogica preference is "JES like" option ii)
 [Go Back](#FAQ_Index)
 
 ### + Whast is NIB*TP?
-**Description:** LIBER*M TP, also referred to as a "region," handles online transaction processing. It has two main components: Region Nodes and the Backbone.
+**Description:** NIB TP, also referred to as a "region," handles online transaction processing. It has two main components: Region Nodes and the Backbone.
 <br>**Region Nodes:** These nodes are responsible for running the moved mainframe applications. They are built with Spring and can operate in various environments: 
 <br>• On regular physical servers or virtual machines (VMs), leveraging automatic scaling capabilities like GCP MIG, AWS ECS, and Azure VMSS.
 <br>• Containerized using technologies such as Kubernetes, OpenShift, Docker Compose, AWS ECS & EKS, GCP GKE & Cloud Run, and Azure ACI & AKS.
