@@ -320,6 +320,18 @@ mLogica preference is "JES like" option ii)
 ## 10-ONLINE
 [Go Back](#FAQ_Index)
 
+### + Whast is NIB*TP?
+Description: LIBER*M TP, also referred to as a "region," handles online transaction processing. It has two main components: Region Nodes and the Backbone.
+Region Nodes: These nodes are responsible for running the moved mainframe applications. They are built with Spring and can operate in various environments: 
+On regular physical servers or virtual machines (VMs), leveraging automatic scaling capabilities like GCP MIG, AWS ECS, and Azure VMSS.
+Containerized using technologies such as Kubernetes, OpenShift, Docker Compose, AWS ECS & EKS, GCP GKE & Cloud Run, and Azure ACI & AKS.
+Serverless on cloud functions like AWS Lambdas, Google Cloud Functions, and Azure Functions.
+The Backbone: This component acts as the communication system that allows Region Nodes to share memory and resources. There are different backbone options: 
+Embedded Backbone: A single Region Node operates independently, with no data sharing with other nodes. This is generally used in test or development environments.
+REDIS Backbone: The region utilizes a REDIS database to facilitate data sharing among nodes.
+Hazelcast backbone: The region uses a Hazelcast cache for data sharing (experimental).
+
+
 ### + How is the transactional monitor configuration captured / migrated (e.g. CICS CSD config file)?
 Each CICS region (called Supernaut Region) is configured using the CSD files configuration from the mainframe.
 CSD is automatically converted in corresponding JSON and YAML config files.
